@@ -361,13 +361,16 @@
         lines.forEach((line) => {
           line = line.trim();
           if (!line) return;
-          if (!line.includes("-") && !line.includes("–")) return;
 
-          let parts = line.split(/[\-–]/);
+          if (!line.includes("-") && !line.includes("–") && !line.includes("—"))
+            return;
+
+          let parts = line.split(/[\-–—]/);
           if (parts.length < 2) return;
 
           let leftPart = parts[0].trim();
           let meaning = parts.slice(1).join("-").trim();
+
           let cleanLeft = leftPart.replace(/^[0-9০-৯]+[\.|,]\s*/, "");
 
           let word = "";

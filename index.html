@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="bn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Juthi's Story Based Vocab Library</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #0a084b, #2b084b);
+        min-height: 100vh;
+      }
+
+      .speaker-icon {
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+      }
+      .speaker-icon:hover {
+        transform: scale(1.1);
+      }
+      .speaker-icon.loading {
+        animation: pulse 1s infinite;
+      }
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+      .story-link {
+        text-decoration: none;
+      }
+      .story-link:hover {
+        text-decoration: underline;
+      }
+
+      .highlighted {
+        animation: highlight-glow 1.5s ease-in-out forwards;
+      }
+      @keyframes highlight-glow {
+        0% {
+          box-shadow: 0 0 0 0px rgba(20, 184, 166, 0.4);
+          transform: scale(1);
+        }
+        50% {
+          box-shadow: 0 0 20px 8px rgba(20, 184, 166, 0.6);
+          transform: scale(1.02);
+        }
+        100% {
+          box-shadow: 0 0 0 0px rgba(20, 184, 166, 0);
+          transform: scale(1);
+        }
+      }
+
+      body::-webkit-scrollbar {
+        width: 10px;
+      }
+      body::-webkit-scrollbar-track {
+        background: #0a084b;
+        border-radius: 10px;
+      }
+      body::-webkit-scrollbar-thumb {
+        background-color: #14b8a6;
+        border-radius: 10px;
+        border: 2px solid #0a084b;
+      }
+      body::-webkit-scrollbar-thumb:hover {
+        background-color: #0d9488;
+      }
+
+      .story-card {
+        transition: all 0.3s ease;
+      }
+      .story-card:hover {
+        transform: translateY(-5px);
+        box-shadow:
+          0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+
+      .modal-content {
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+    </style>
+  </head>
+  <body
+    class="p-4 sm:p-8 flex flex-col items-center justify-start text-gray-800 dark:text-gray-200 relative"
+  >
+    <div id="home-view" class="w-full max-w-6xl animate-fade-in pb-20">
+      <div
+        class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4"
+      >
+        <h1 class="text-4xl sm:text-5xl font-bold text-white drop-shadow-lg">
+          Juthi's Vocab Library 📚
+        </h1>
+
+        <div class="flex flex-wrap justify-center gap-3">
+          <button
+            onclick="triggerImport()"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full font-bold shadow-lg text-sm flex items-center gap-2 transition transform hover:scale-105"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+              />
+            </svg>
+            Import JSON
+          </button>
+          <input
+            type="file"
+            id="file-input"
+            class="hidden"
+            accept=".json"
+            onchange="importData(this)"
+          />
+
+          <button
+            onclick="exportData()"
+            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full font-bold shadow-lg text-sm flex items-center gap-2 transition transform hover:scale-105"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+              />
+            </svg>
+            Export JSON
+          </button>
+
+          <button
+            onclick="openModal()"
+            class="bg-teal-500 hover:bg-teal-600 text-white px-5 py-2 rounded-full font-bold shadow-lg flex items-center gap-2 transition transform hover:scale-105 border-2 border-white/20"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+            নতুন গল্প
+          </button>
+        </div>
+      </div>
+
+      <div
+        id="stories-grid"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+      ></div>
+    </div>
+
+    <div
+      id="story-view"
+      class="hidden max-w-4xl w-full bg-white dark:bg-[#17153B] rounded-3xl shadow-2xl overflow-hidden border-4 border-teal-400 relative mb-10"
+    >
+      <button
+        onclick="showHome()"
+        class="absolute top-4 left-4 sm:top-6 sm:left-6 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow transition flex items-center gap-2 z-10"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        Back
+      </button>
+
+      <div class="p-6 sm:p-8 pt-16 sm:pt-16">
+        <h1
+          id="article-title"
+          class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 sm:mb-8 text-indigo-700 dark:text-indigo-400"
+        ></h1>
+        <p
+          id="article-content"
+          class="text-base sm:text-lg text-justify leading-relaxed mb-6 sm:mb-8 bg-blue-50 dark:bg-gray-700 p-4 rounded-2xl shadow-inner text-gray-800 dark:text-gray-200"
+        ></p>
+        <div id="glossary-section" class="mt-8">
+          <h2
+            class="text-xl sm:text-2xl font-bold mb-4 text-center text-indigo-700 dark:text-indigo-400"
+          >
+            শব্দার্থ
+          </h2>
+          <div
+            id="glossary-container"
+            class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="input-modal"
+      class="hidden fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4"
+    >
+      <div
+        class="bg-white dark:bg-[#1f1b4e] w-full max-w-2xl rounded-2xl shadow-2xl modal-content p-6 border-2 border-teal-500"
+      >
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
+            নতুন গল্প যুক্ত করুন
+          </h2>
+          <button
+            onclick="closeModal()"
+            class="text-red-500 hover:text-red-700 font-bold text-xl"
+          >
+            &times;
+          </button>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <label
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              >গল্পের নাম (Title)</label
+            >
+            <input
+              type="text"
+              id="input-title"
+              class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              placeholder="যেমন: নস্টালজিক বিকেল"
+            />
+          </div>
+
+          <div>
+            <label
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              >সম্পূর্ণ কন্টেন্ট পেস্ট করুন</label
+            >
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">
+              আপনার ফরমেট অনুযায়ী: প্রথমে গল্প, তারপর "Take a Quick Look", তারপর
+              নাম্বারিং করা লিস্ট।
+            </p>
+            <textarea
+              id="input-raw-text"
+              rows="10"
+              class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600 dark:text-white font-mono text-sm"
+              placeholder="এখানে গল্প এবং শব্দের তালিকা পেস্ট করুন..."
+            ></textarea>
+          </div>
+
+          <div class="flex justify-end gap-3 pt-4">
+            <button
+              onclick="closeModal()"
+              class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+            >
+              Cancel
+            </button>
+            <button
+              onclick="processAndAddStory()"
+              class="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 font-bold"
+            >
+              Save & Generate
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button
+      id="scroll-to-top-btn"
+      class="hidden fixed bottom-5 right-5 z-50 p-3 bg-teal-500 text-white rounded-full shadow-lg hover:bg-teal-600"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M5 10l7-7m0 0l7 7m-7-7v18"
+        />
+      </svg>
+    </button>
+
+    <script>
+      // ================= DATA & STORAGE =================
+      const colorPalette = [
+        "purple",
+        "orange",
+        "lime",
+        "pink",
+        "cyan",
+        "teal",
+        "yellow",
+        "red",
+        "indigo",
+      ];
+
+      const defaultStories = [
+        {
+          id: 1,
+          title: "হলদে বকের গল্প",
+          shortDesc: "কচুরিপানার মধ্যে লুকিয়ে থাকা এক ধূর্ত পাখির জীবন কাহিনী।",
+          article: `হলদে বক নামের একটি পাখি আছে, যারা মূলত Water Hyacinth এর মধ্যে বসবাস করে। কচুরিপানার মধ্যে তারা Skulk হয়ে থাকে। সাধারণত Pastoral ও Balmy পরিবেশে তারা থাকতে পছন্দ করে। Seldom তাদের লোকালয়ে দেখা যায়। চলাচল ও খাদ্য সংগ্রহের ক্ষেত্রে তাদের Artifice চমৎকার। তারা Echo শব্দ তৈরি করে নিজেদের মধ্যে যোগাযোগ রক্ষা করে এবং ধূর্ততার সাথে মাছ শিকার করে। তবে হলদে বকের অস্তিত্ব আজ হুমকির মুখে পড়েছে, বিশেষ করে Clime পরিবর্তনের প্রভাবে কারণে এর জনসংখ্যা কমে যাচ্ছে। তাছাড়া Arbitrary ভাবে খাল, বিল, নলা ধ্বংস করার কারণেও হলদে বকের অস্তিত্ব আজ হুমকির মুখে।`,
+          glossary: [
+            {
+              word: "Water Hyacinth",
+              meaning: "কচুরিপানা",
+              color: "purple",
+              banglaWord: "ওয়াটার হায়াসিন্থ",
+            },
+            {
+              word: "Skulk",
+              meaning: "লুকিয়ে থাকা",
+              color: "orange",
+              banglaWord: "স্কালক",
+            },
+            {
+              word: "Pastoral",
+              meaning: "গ্রাম্য",
+              color: "lime",
+              banglaWord: "পাস্টোরাল",
+            },
+            {
+              word: "Balmy",
+              meaning: "মনোরম",
+              color: "pink",
+              banglaWord: "বামি",
+            },
+            {
+              word: "Seldom",
+              meaning: "কদাচিৎ",
+              color: "cyan",
+              banglaWord: "সেলডম",
+            },
+            {
+              word: "Artifice",
+              meaning: "ধূর্ততা",
+              color: "teal",
+              banglaWord: "আর্টিফিস",
+            },
+            {
+              word: "Echo",
+              meaning: "প্রতিধ্বনি",
+              color: "yellow",
+              banglaWord: "একো",
+            },
+            {
+              word: "Clime",
+              meaning: "জলবায়ু",
+              color: "red",
+              banglaWord: "ক্লাইম",
+            },
+            {
+              word: "Arbitrary",
+              meaning: "ইচ্ছামতো",
+              color: "indigo",
+              banglaWord: "আর্বিট্রারি",
+            },
+          ],
+        },
+      ];
+
+      let stories = [];
+
+      function initApp() {
+        const savedStories = localStorage.getItem("myStoryApp_stories");
+        if (savedStories) {
+          stories = JSON.parse(savedStories);
+        } else {
+          stories = defaultStories;
+          saveStoriesToLocal();
+        }
+        renderHome();
+      }
+
+      function saveStoriesToLocal() {
+        localStorage.setItem("myStoryApp_stories", JSON.stringify(stories));
+      }
+
+      // ================= IMPORT / EXPORT =================
+
+      // 1. Export JSON
+      function exportData() {
+        const dataStr = JSON.stringify(stories, null, 2);
+        const dataUri =
+          "data:application/json;charset=utf-8," + encodeURIComponent(dataStr);
+
+        const exportFileDefaultName = "story_backup.json";
+
+        const linkElement = document.createElement("a");
+        linkElement.setAttribute("href", dataUri);
+        linkElement.setAttribute("download", exportFileDefaultName);
+        linkElement.click();
+      }
+
+      // 2. Import JSON
+      function triggerImport() {
+        document.getElementById("file-input").click();
+      }
+
+      function importData(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          try {
+            const importedStories = JSON.parse(e.target.result);
+            if (Array.isArray(importedStories)) {
+              stories = importedStories;
+              saveStoriesToLocal();
+              renderHome();
+              alert("সফলভাবে ইম্পোর্ট হয়েছে! 🎉");
+            } else {
+              alert("ভুল ফরম্যাটের ফাইল!");
+            }
+          } catch (err) {
+            alert("ফাইল রিড করতে সমস্যা হয়েছে। দয়া করে সঠিক JSON ফাইল দিন।");
+          }
+        };
+        reader.readAsText(file);
+        input.value = "";
+      }
+
+      // ================= PARSER & LOGIC =================
+
+      function openModal() {
+        document.getElementById("input-modal").classList.remove("hidden");
+      }
+      function closeModal() {
+        document.getElementById("input-modal").classList.add("hidden");
+      }
+
+      function processAndAddStory() {
+        const title = document.getElementById("input-title").value;
+        const rawText = document.getElementById("input-raw-text").value;
+
+        if (!title || !rawText) {
+          alert("দয়া করে টাইটেল এবং কন্টেন্ট দিন।");
+          return;
+        }
+
+        const splitParts = rawText.split(
+          /Take a Quick Look|শব্দার্থ|Quick Look/i,
+        );
+        const articleText = splitParts[0].trim();
+        const glossaryText = splitParts.length > 1 ? splitParts[1] : "";
+
+        const glossary = [];
+        const lines = glossaryText.split("\n");
+
+        lines.forEach((line) => {
+          line = line.trim();
+          if (!line) return;
+
+          const regex =
+            /[০-৯0-9]+[\.|,]\s*([a-zA-Z]+)\s*\((.*?)\).*?[\-–]\s*(.*)/;
+          const match = line.match(regex);
+
+          if (match) {
+            const englishWord = match[1].trim();
+            const pronunciation = match[2].trim();
+            const meaning = match[3].trim();
+            const randomColor =
+              colorPalette[Math.floor(Math.random() * colorPalette.length)];
+
+            glossary.push({
+              word: englishWord,
+              banglaWord: pronunciation,
+              meaning: meaning,
+              color: randomColor,
+            });
+          }
+        });
+
+        const newStory = {
+          id: Date.now(),
+          title: title,
+          shortDesc: articleText.substring(0, 100) + "...",
+          article: articleText,
+          glossary: glossary,
+        };
+
+        stories.push(newStory);
+        saveStoriesToLocal();
+
+        renderHome();
+        closeModal();
+
+        document.getElementById("input-title").value = "";
+        document.getElementById("input-raw-text").value = "";
+
+        loadStory(newStory.id);
+      }
+
+      // ================= UI RENDER =================
+
+      const homeView = document.getElementById("home-view");
+      const storyView = document.getElementById("story-view");
+      const storiesGrid = document.getElementById("stories-grid");
+
+      function renderHome() {
+        storiesGrid.innerHTML = "";
+        const reversedStories = [...stories].reverse();
+
+        reversedStories.forEach((story) => {
+          const card = document.createElement("div");
+          card.className =
+            "story-card bg-white dark:bg-[#1f1b4e] p-6 rounded-2xl shadow-lg cursor-pointer border-2 border-transparent hover:border-teal-400 flex flex-col h-full";
+          card.onclick = () => loadStory(story.id);
+
+          card.innerHTML = `
+                <div class="h-32 bg-gradient-to-r from-teal-400 to-blue-500 rounded-xl mb-4 flex items-center justify-center text-4xl shadow-inner">
+                    📖
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">${story.title}</h3>
+                <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-3 mb-4 flex-grow">${story.shortDesc}</p>
+                <div class="mt-auto pt-4 border-t border-gray-200 dark:border-gray-600 flex justify-between items-center">
+                    <span class="text-xs font-semibold bg-gray-200 dark:bg-gray-600 px-2 py-1 rounded text-gray-700 dark:text-gray-200">${story.glossary.length} Words</span>
+                    <button class="text-teal-600 dark:text-teal-400 font-bold text-sm hover:underline">পড়ুন →</button>
+                </div>
+            `;
+          storiesGrid.appendChild(card);
+        });
+      }
+
+      function loadStory(id) {
+        const storyData = stories.find((s) => s.id === id);
+        if (!storyData) return;
+        homeView.classList.add("hidden");
+        storyView.classList.remove("hidden");
+        window.scrollTo(0, 0);
+        renderStoryContent(storyData);
+      }
+
+      function showHome() {
+        storyView.classList.add("hidden");
+        homeView.classList.remove("hidden");
+        window.scrollTo(0, 0);
+      }
+
+      function renderStoryContent(storyData) {
+        const articleTitleEl = document.getElementById("article-title");
+        const articleContentEl = document.getElementById("article-content");
+        const glossaryContainerEl =
+          document.getElementById("glossary-container");
+
+        articleTitleEl.textContent = storyData.title;
+
+        let highlightedArticle = storyData.article;
+        const sortedGlossary = [...storyData.glossary].sort(
+          (a, b) => b.word.length - a.word.length,
+        );
+
+        sortedGlossary.forEach((item) => {
+          const id = createId(item.word);
+          const wordWithLink = `<a href="#${id}" class="story-link font-semibold text-${item.color}-700 dark:text-${item.color}-300 hover:underline cursor-pointer" data-glossary-id="${id}">${item.word}</a>`;
+          const regex = new RegExp(`(${item.word})`, "gi");
+          highlightedArticle = highlightedArticle.replace(regex, wordWithLink);
+        });
+
+        highlightedArticle = highlightedArticle.replace(/\n/g, "<br>");
+        articleContentEl.innerHTML = highlightedArticle;
+
+        // (US & UK)
+        let glossaryHtml = "";
+        storyData.glossary.forEach((item) => {
+          const id = createId(item.word);
+          const wordWithBangla = item.banglaWord ? `(${item.banglaWord})` : "";
+          glossaryHtml += `
+            <div id="${id}" class="flex flex-col p-4 bg-${item.color}-100 dark:bg-gray-700 rounded-lg shadow-md transition-all duration-300 hover:bg-${item.color}-200 dark:hover:bg-gray-600 transform hover:-translate-y-1 border-l-4 border-${item.color}-500">
+              <div class="flex items-center justify-between">
+                <span class="font-semibold text-lg sm:text-xl text-${item.color}-700 dark:text-${item.color}-300">${item.word} ${wordWithBangla}</span>
+                
+                <div class="flex space-x-2">
+                   <div class="flex items-center cursor-pointer p-1 rounded hover:bg-white/20" title="US Pronunciation" onclick="playPronunciation('${item.word}', 'en-US', this)">
+                    <svg class="speaker-icon w-5 h-5 text-${item.color}-700 dark:text-${item.color}-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14 3.23a2.5 2.5 0 0 1 0 17.54v-2.1a9.23 9.23 0 0 0 0-13.34V3.23ZM16.5 7.18a5.95 5.95 0 0 1 0 9.64v-1.78a3.46 3.46 0 0 0 0-6.08V7.18ZM12 4a.97.97 0 0 0-1-.87L7.43 5.4a1 1 0 0 1-.62.24H3.5a1.5 1.5 0 0 0-1.5 1.5v9.72a1.5 1.5 0 0 0 1.5 1.5h3.31a1 1 0 0 1 .62.24l3.58 2.34A.97.97 0 0 0 12 20V4Z"/></svg>
+                    <span class="ml-1 text-xs text-${item.color}-700 dark:text-${item.color}-300 font-bold">US</span>
+                   </div>
+
+                   <div class="flex items-center cursor-pointer p-1 rounded hover:bg-white/20" title="UK Pronunciation" onclick="playPronunciation('${item.word}', 'en-GB', this)">
+                    <svg class="speaker-icon w-5 h-5 text-${item.color}-700 dark:text-${item.color}-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14 3.23a2.5 2.5 0 0 1 0 17.54v-2.1a9.23 9.23 0 0 0 0-13.34V3.23ZM16.5 7.18a5.95 5.95 0 0 1 0 9.64v-1.78a3.46 3.46 0 0 0 0-6.08V7.18ZM12 4a.97.97 0 0 0-1-.87L7.43 5.4a1 1 0 0 1-.62.24H3.5a1.5 1.5 0 0 0-1.5 1.5v9.72a1.5 1.5 0 0 0 1.5 1.5h3.31a1 1 0 0 1 .62.24l3.58 2.34A.97.97 0 0 0 12 20V4Z"/></svg>
+                    <span class="ml-1 text-xs text-${item.color}-700 dark:text-${item.color}-300 font-bold">UK</span>
+                   </div>
+                </div>
+
+              </div>
+              <span class="text-sm sm:text-base mt-2 text-gray-800 dark:text-gray-200 font-medium">${item.meaning}</span>
+            </div>
+          `;
+        });
+        glossaryContainerEl.innerHTML = glossaryHtml;
+
+        attachEventListeners();
+      }
+
+      let speechSynth = window.speechSynthesis;
+      function createId(word) {
+        return "glossary-" + word.toLowerCase().replace(/[^a-z0-9]/g, "-");
+      }
+
+      function highlightGlossaryItem(id) {
+        document.querySelectorAll(".highlighted").forEach((el) => {
+          el.classList.remove("highlighted");
+        });
+        const item = document.getElementById(id);
+        if (item) {
+          item.classList.add("highlighted");
+        }
+      }
+
+      async function playPronunciation(word, lang, button) {
+        if ("speechSynthesis" in window) {
+          if (speechSynth.speaking) {
+            speechSynth.cancel();
+          }
+          const utterance = new SpeechSynthesisUtterance(word);
+          utterance.lang = lang;
+          const icon = button.querySelector("svg") || button;
+          utterance.onstart = () => {
+            icon.classList.add("loading");
+          };
+          utterance.onend = () => {
+            icon.classList.remove("loading");
+          };
+          utterance.onerror = () => {
+            icon.classList.remove("loading");
+          };
+          speechSynth.speak(utterance);
+        } else {
+          console.warn("Web Speech API not supported.");
+        }
+      }
+
+      function attachEventListeners() {
+        document.querySelectorAll(".story-link").forEach((link) => {
+          link.addEventListener("click", (event) => {
+            event.preventDefault();
+            const id = event.target.dataset.glossaryId;
+            const element = document.getElementById(id);
+            if (element) {
+              element.scrollIntoView({ behavior: "smooth", block: "center" });
+              highlightGlossaryItem(id);
+            }
+          });
+        });
+      }
+
+      const scrollToTopBtn = document.getElementById("scroll-to-top-btn");
+      window.onscroll = function () {
+        if (
+          document.body.scrollTop > 200 ||
+          document.documentElement.scrollTop > 200
+        ) {
+          scrollToTopBtn.classList.remove("hidden");
+        } else {
+          scrollToTopBtn.classList.add("hidden");
+        }
+      };
+      scrollToTopBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      initApp();
+    </script>
+  </body>
+</html>

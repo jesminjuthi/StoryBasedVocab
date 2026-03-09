@@ -1,0 +1,590 @@
+[
+  {
+    "id": 1773004773286,
+    "title": "পুরানো সেই বাড়িটায়",
+    "shortDesc": "পুরানো সেই বাড়িটায় ঢুকতেই এক তীব্র nostalgia আমাকে ঘিরে ধরল। চারপাশের সব আসবাবপত্র ছিল একদম vintage ...",
+    "article": "পুরানো সেই বাড়িটায় ঢুকতেই এক তীব্র nostalgia আমাকে ঘিরে ধরল। চারপাশের সব আসবাবপত্র ছিল একদম vintage স্টাইলের, যা দেখে আমি ভীষণ sentimental হয়ে পড়লাম। বিকেলের ম্লান আলোয় এক অদ্ভুত melancholy যেন রুমটাতে ছড়িয়ে ছিল। দাদুর টেবিলের উপর রাখা চশমাটা ছিল তার শেষ memento। শেষ বয়সে তিনি amnesia-তে ভুগছিলেন, সব ভুলে যেতেন। আজ এই reminiscence-এর মাধ্যমে আমি যেন retrospect করছি তার ফেলে আসা দিনগুলো। যুদ্ধের সেই সময়টা ছিল তার জন্য অত্যন্ত traumatic। তবুও তিনি আমাদের জন্য রেখে গেছেন তার সততার legacy। তার মনে কারো প্রতি কোনো resentment ছিল না। মাঝে মাঝে তার স্মৃতিশক্তি retrograde বা পেছনের দিকে চলে যেত, তখন তিনি খুব distressed হয়ে পড়তেন। হয়তো কোনো ভুলের জন্য তার মনে গভীর remorse ছিল। তবে বই পড়ার প্রতি তার addiction আমৃত্যু ছিল।",
+    "glossary": [
+      {
+        "word": "Nostalgia",
+        "banglaWord": "নস্টালজিয়া",
+        "meaning": "নস্টালজিয়া",
+        "color": "teal"
+      },
+      {
+        "word": "Vintage",
+        "banglaWord": "ভিন্টেজ",
+        "meaning": "পুরোনো",
+        "color": "lime"
+      },
+      {
+        "word": "Sentimental",
+        "banglaWord": "সেন্টিমেন্টাল",
+        "meaning": "আবেগপ্রবণ",
+        "color": "teal"
+      },
+      {
+        "word": "Melancholy",
+        "banglaWord": "মেলানকলি",
+        "meaning": "বিষণ্ণতা",
+        "color": "indigo"
+      },
+      {
+        "word": "Memento",
+        "banglaWord": "মেমেন্টো",
+        "meaning": "স্মৃতিচিহ্ন",
+        "color": "pink"
+      },
+      {
+        "word": "Amnesia",
+        "banglaWord": "অ্যামনেশিয়া",
+        "meaning": "স্মৃতিভ্রংশ",
+        "color": "orange"
+      },
+      {
+        "word": "Reminiscence",
+        "banglaWord": "রিমিনিসেন্স",
+        "meaning": "স্মৃতিচারণ",
+        "color": "red"
+      },
+      {
+        "word": "Retrospect",
+        "banglaWord": "রেট্রোস্পেক্ট",
+        "meaning": "অতীতচিন্তা",
+        "color": "teal"
+      },
+      {
+        "word": "Traumatic",
+        "banglaWord": "ট্রমাটিক",
+        "meaning": "আঘাতজনিত",
+        "color": "pink"
+      },
+      {
+        "word": "Legacy",
+        "banglaWord": "লেগাসি",
+        "meaning": "উত্তরাধিকার",
+        "color": "red"
+      },
+      {
+        "word": "Resentment",
+        "banglaWord": "রিসেন্টমেন্ট",
+        "meaning": "ক্ষোভ",
+        "color": "cyan"
+      },
+      {
+        "word": "Retrograde",
+        "banglaWord": "রেট্রোগ্রেড",
+        "meaning": "পশ্চাদগামী",
+        "color": "pink"
+      },
+      {
+        "word": "Distressed",
+        "banglaWord": "ডিস্ট্রেসড",
+        "meaning": "উদ্বিগ্ন",
+        "color": "purple"
+      },
+      {
+        "word": "Remorse",
+        "banglaWord": "রিমোর্স",
+        "meaning": "অনুশোচনা",
+        "color": "teal"
+      },
+      {
+        "word": "Addiction",
+        "banglaWord": "অ্যাডিকশন",
+        "meaning": "আসক্তি",
+        "color": "red"
+      }
+    ]
+  },
+  {
+    "id": 1773012246858,
+    "title": "১. জীবনটা কখনোই",
+    "shortDesc": "জীবনটা কখনোই a bed of roses নয়, তা আমি ভালো করেই জানি। আমাদের পরিবারের black sheep হিসেবে পরিচিত রাজ...",
+    "article": "জীবনটা কখনোই a bed of roses নয়, তা আমি ভালো করেই জানি। আমাদের পরিবারের black sheep হিসেবে পরিচিত রাজিব কখনোই বড়দের কথা abide by করত না। পৈতৃক সম্পত্তিটাই ছিল দুই ভাইয়ের মধ্যে apple of discord। রাজিব by hook or by crook পুরো সম্পত্তির দখল নিতে চাইল। তার ঘরদোর সবসময় at sixes and sevens অবস্থায় থাকত এবং সে সারাদিন lethargy-তে ভুগত। বাজে অভ্যাস থেকে সে কিছুতেই abstain from করতে পারত না। এমনকি তার বিরুদ্ধে একবার চুরির accused of হওয়ার অভিযোগও উঠেছিল।\n\nকিন্তু আমার বড় ভাই ছিলেন অত্যন্ত magnanimous। তিনি খুব candid মানুষ ছিলেন এবং সর্বদা নিজের কাজে absorbed in থাকতেন। তিনি বিশ্বাস করতেন জাগতিক সুখ ephemeral। তাই ভাইয়ের সাথে সম্পর্ক bolster করার জন্য তিনি নিজেই সরে দাঁড়ালেন। আজ রাজিবের সেই সম্পত্তিতে পূর্ণ access to আছে, কিন্তু সে তার ভাইকে হারিয়েছে।",
+    "glossary": [
+      {
+        "word": "Magnanimous",
+        "banglaWord": "ম্যাগনানিমানাস",
+        "meaning": "মহানুভব / উদার",
+        "color": "red"
+      },
+      {
+        "word": "Ephemeral",
+        "banglaWord": "ইফেমেরাল",
+        "meaning": "ক্ষণস্থায়ী",
+        "color": "yellow"
+      },
+      {
+        "word": "Candid",
+        "banglaWord": "ক্যান্ডিড",
+        "meaning": "স্পষ্টবাদী / মনখোলা",
+        "color": "pink"
+      },
+      {
+        "word": "Bolster",
+        "banglaWord": "বোলস্টার",
+        "meaning": "শক্তিশালী করা / সমর্থন করা",
+        "color": "cyan"
+      },
+      {
+        "word": "Lethargy",
+        "banglaWord": "লেথার্জি",
+        "meaning": "অলসতা / নিস্তেজ ভাব",
+        "color": "cyan"
+      },
+      {
+        "word": "Abide by",
+        "banglaWord": "",
+        "meaning": "মেনে চলা",
+        "color": "teal"
+      },
+      {
+        "word": "Abstain from",
+        "banglaWord": "",
+        "meaning": "বিরত থাকা",
+        "color": "lime"
+      },
+      {
+        "word": "Absorbed in",
+        "banglaWord": "",
+        "meaning": "মগ্ন / নিবিষ্ট",
+        "color": "red"
+      },
+      {
+        "word": "Access to",
+        "banglaWord": "",
+        "meaning": "প্রবেশাধিকার",
+        "color": "orange"
+      },
+      {
+        "word": "Accused of",
+        "banglaWord": "",
+        "meaning": "অভিযুক্ত",
+        "color": "lime"
+      },
+      {
+        "word": "A bed of roses",
+        "banglaWord": "",
+        "meaning": "আরামদায়ক অবস্থা / ফুলশয্যা",
+        "color": "teal"
+      },
+      {
+        "word": "Apple of discord",
+        "banglaWord": "",
+        "meaning": "বিবাদের মূল / ঝগড়ার কারণ",
+        "color": "indigo"
+      },
+      {
+        "word": "At sixes and sevens",
+        "banglaWord": "",
+        "meaning": "বিশৃঙ্খল অবস্থা",
+        "color": "yellow"
+      },
+      {
+        "word": "Black sheep",
+        "banglaWord": "",
+        "meaning": "কুলাঙ্গার",
+        "color": "yellow"
+      },
+      {
+        "word": "By hook or by crook",
+        "banglaWord": "",
+        "meaning": "যে কোনো উপায়ে (সৎ বা অসৎ)",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "id": 1773013676966,
+    "title": "২. সাফাতের কর্মজীবন",
+    "shortDesc": "সাফাতের কর্মজীবন একসময় খুব ভালো কাটছিল, কিন্তু সে তার কাজ নিয়ে অতিরিক্ত complacent ছিল। সে জানত না য...",
+    "article": "সাফাতের কর্মজীবন একসময় খুব ভালো কাটছিল, কিন্তু সে তার কাজ নিয়ে অতিরিক্ত complacent ছিল। সে জানত না যে সময়ের সাথে পরিবর্তন আসা inevitable। একদিন যখন বাইরে cats and dogs বৃষ্টি পড়ছিল, তখন তার চাকরি হারানোর খবরটি এল। ঘটনাটি তার জীবনে একদম a bolt from the blue এর মতো ছিল। অফিসের বসের দেওয়া কারণগুলো খুব ambiguous থাকায় সে কিছুই বুঝতে পারছিল না। সে উপলব্ধি করল যে তার বর্তমান দক্ষতাগুলো এখন obsolete হয়ে পড়েছে এবং এই কঠিন প্রতিযোগিতায় সে বেশ vulnerable। তার এই খারাপ সময়ে অনেকে crocodile tears দেখালেও কেউ প্রকৃত সাহায্য করতে এগিয়ে আসেনি।\n\nতবে সাফাতের মনে নতুন কিছু করার তীব্র desire for ছিল। সে জানত তার গ্রাম প্রাকৃতিক সম্পদে abound in। সে অলসতার in lieu of পরিশ্রমকে বেছে নিল কারণ সে জানত সে সফল হতে capable of। যদিও অনেকে তার সাফল্যে envious of ছিল, তবুও সে নিজের কাজে fond of হয়ে লেগে থাকল। অবশেষে তার খামারের উদ্বোধনের দিনটি ছিল তাদের জন্য এক gala day।",
+    "glossary": [
+      {
+        "word": "Ambiguous",
+        "banglaWord": "অ্যাম্বিগুয়াস",
+        "meaning": "অস্পষ্ট / দ্ব্যর্থবোধক",
+        "color": "yellow"
+      },
+      {
+        "word": "Complacent",
+        "banglaWord": "কমপ্লেসেন্ট",
+        "meaning": "আত্মতৃপ্ত",
+        "color": "indigo"
+      },
+      {
+        "word": "Inevitable",
+        "banglaWord": "ইনেভিটেবল",
+        "meaning": "অনিবার্য",
+        "color": "purple"
+      },
+      {
+        "word": "Obsolete",
+        "banglaWord": "অবসলিট",
+        "meaning": "সেকেলে / অপ্রচলিত",
+        "color": "yellow"
+      },
+      {
+        "word": "Vulnerable",
+        "banglaWord": "ভালনারেবল",
+        "meaning": "অরক্ষিত / সহজে আঘাতযোগ্য",
+        "color": "purple"
+      },
+      {
+        "word": "Abound in / with",
+        "banglaWord": "",
+        "meaning": "প্রচুর পরিমাণে থাকা",
+        "color": "pink"
+      },
+      {
+        "word": "Capable of",
+        "banglaWord": "",
+        "meaning": "সক্ষম",
+        "color": "purple"
+      },
+      {
+        "word": "Desire for",
+        "banglaWord": "",
+        "meaning": "আকাঙ্ক্ষা",
+        "color": "red"
+      },
+      {
+        "word": "Envious of",
+        "banglaWord": "",
+        "meaning": "ঈর্ষান্বিত",
+        "color": "cyan"
+      },
+      {
+        "word": "Fond of",
+        "banglaWord": "",
+        "meaning": "প্রিয় / পছন্দ করে এমন",
+        "color": "cyan"
+      },
+      {
+        "word": "A bolt from the blue",
+        "banglaWord": "",
+        "meaning": "অপ্রত্যাশিত বিপদ",
+        "color": "orange"
+      },
+      {
+        "word": "Cats and dogs",
+        "banglaWord": "",
+        "meaning": "মুষলধারে",
+        "color": "teal"
+      },
+      {
+        "word": "Crocodile tears",
+        "banglaWord": "",
+        "meaning": "মায়াকান্না",
+        "color": "cyan"
+      },
+      {
+        "word": "Gala day",
+        "banglaWord": "",
+        "meaning": "উৎসবের দিন",
+        "color": "teal"
+      },
+      {
+        "word": "In lieu of",
+        "banglaWord": "",
+        "meaning": "পরিবর্তে",
+        "color": "cyan"
+      }
+    ]
+  },
+  {
+    "id": 1773086379889,
+    "title": "৩. রহিম সাহেব তার এলাকায়",
+    "shortDesc": "রহিম সাহেব তার এলাকায় খুব amiable মানুষ হিসেবে পরিচিত হলেও তার বড় ছেলে আসিফ ছিল ভীষণ obstinate। আসিফ...",
+    "article": "রহিম সাহেব তার এলাকায় খুব amiable মানুষ হিসেবে পরিচিত হলেও তার বড় ছেলে আসিফ ছিল ভীষণ obstinate। আসিফ পড়াশোনায় একদমই মন দিত না, বরং সে সারাদিন মোবাইল গেমে addicted to ছিল। সে তার পড়াশোনা করত by fits and starts, যার ফলে পরীক্ষার রেজাল্ট খারাপ হওয়াটাই স্বাভাবিক ছিল। রহিম সাহেব চেয়েছিলেন আসিফ যেন এই বাজে অভ্যাসগুলো rectify করে নেয়, কারণ বাড়ির নিয়ম অনুযায়ী ঘরের ভেতর রাত জেগে গেম খেলা prohibit ছিল।\n\nআসিফের ইচ্ছে ছিল বড় বড় কোম্পানির সাথে compete with করে নিজের ক্যারিয়ার গড়া, কিন্তু সঠিক প্রস্তুতির অভাবে তার সব পরিকল্পনা শেষ পর্যন্ত end in smoke। একদিন রেজাল্ট দেখে সে এতটাই at a loss হয়ে পড়ল যে কী করবে ভেবে পাচ্ছিল না। সে বুঝতে পারল, এই জীবনটা তার নয়, এটা তার বাবার কঠোর পরিশ্রমে গড়া এবং একদিন সবকিছুই অন্য কারো belong to হতে পারে যদি সে নিজেকে না বদলায়। আসিফ তার ভুল বুঝতে পারল এবং রহিম সাহেবের concise কিছু উপদেশ তাকে নতুন করে সাহস দিল। শেষ পর্যন্ত আসিফ কঠোর পরিশ্রম শুরু করল এবং পরবর্তী প্রতিযোগিতায় সে ই carry the day।",
+    "glossary": [
+      {
+        "word": "Concise",
+        "banglaWord": "কনসাইস",
+        "meaning": "সংক্ষিপ্ত",
+        "color": "yellow"
+      },
+      {
+        "word": "Obstinate",
+        "banglaWord": "অবস্টিনেট",
+        "meaning": "একগুঁয়ে / জেদি",
+        "color": "red"
+      },
+      {
+        "word": "Amiable",
+        "banglaWord": "অ্যামিয়েবল",
+        "meaning": "বন্ধুভাবাপন্ন / অমায়িক",
+        "color": "lime"
+      },
+      {
+        "word": "Prohibit",
+        "banglaWord": "প্রোহিবিট",
+        "meaning": "নিষিদ্ধ করা",
+        "color": "purple"
+      },
+      {
+        "word": "Rectify",
+        "banglaWord": "রেক্টিফাই",
+        "meaning": "সংশোধন করা",
+        "color": "teal"
+      },
+      {
+        "word": "Addicted to",
+        "banglaWord": "",
+        "meaning": "আসক্ত (খারাপ অর্থে)",
+        "color": "lime"
+      },
+      {
+        "word": "Belong to",
+        "banglaWord": "",
+        "meaning": "অধিকারে থাকা / মালিকানাধীন হওয়া",
+        "color": "teal"
+      },
+      {
+        "word": "Compete with",
+        "banglaWord": "",
+        "meaning": "প্রতিযোগিতা করা (ব্যক্তির সাথে)",
+        "color": "cyan"
+      },
+      {
+        "word": "Die of",
+        "banglaWord": "",
+        "meaning": "মারা যাওয়া (রোগে)",
+        "color": "pink"
+      },
+      {
+        "word": "Expert in",
+        "banglaWord": "",
+        "meaning": "দক্ষ",
+        "color": "teal"
+      },
+      {
+        "word": "At a loss",
+        "banglaWord": "",
+        "meaning": "হতবুদ্ধি / কিংকর্তব্যবিমূঢ়",
+        "color": "lime"
+      },
+      {
+        "word": "Black and blue",
+        "banglaWord": "",
+        "meaning": "নির্মমভাবে / বেদম প্রহার",
+        "color": "teal"
+      },
+      {
+        "word": "By fits and starts",
+        "banglaWord": "",
+        "meaning": "অনিয়মিতভাবে / খাপছাড়া ভাবে",
+        "color": "pink"
+      },
+      {
+        "word": "Carry the day",
+        "banglaWord": "",
+        "meaning": "জয়লাভ করা",
+        "color": "indigo"
+      },
+      {
+        "word": "End in smoke",
+        "banglaWord": "",
+        "meaning": "ব্যর্থ হওয়া / নিস্ফল হওয়া",
+        "color": "cyan"
+      }
+    ]
+  },
+  {
+    "id": 1773086563216,
+    "title": "৪. শফিক সাহেব ছিলেন অত্যন্ত",
+    "shortDesc": "শফিক সাহেব ছিলেন অত্যন্ত prudent একজন মানুষ, যিনি বিশ্বাস করতেন জীবনে সঞ্চয় indispensable। তার ইচ্ছে...",
+    "article": "শফিক সাহেব ছিলেন অত্যন্ত prudent একজন মানুষ, যিনি বিশ্বাস করতেন জীবনে সঞ্চয় indispensable। তার ইচ্ছে ছিল শেষ বয়স পর্যন্ত কাজ করে die in harness। কিন্তু তার ছেলে রনি ছিল ঠিক উল্টো, সে ভীষণ extravagant এবং gregarious স্বভাবের ছিল। বন্ধুদের নিয়ে পার্টি করাই ছিল তার কাজ। রনি তার নিজের দোষের প্রতি সবসময় blind to ছিল এবং বাবার কোনো উপদেশেই সে agree with হতে চাইত না।\n\nশফিক সাহেব যখন রনির কাছে তার ভবিষ্যৎ পরিকল্পনা নিয়ে enquire of করলেন, রনি কোনো উত্তর দিতে পারল না। আসলে সে ছিল বাস্তব কাণ্ডজ্ঞান বা common sense-এ devoid of। হঠাৎ বাবার অসুস্থতায় রনি বুঝল তার এই বিলাসিতার সুখ ছিল নিতান্তই transient। হাসপাতালে টাকার প্রয়োজনে সে যখন পুরোনো বন্ধুদের কথা call to mind করার চেষ্টা করল, দেখল কেউ এগিয়ে এল না। এমনকি বিপদের সময় তার কোনো kith and kin-ও পাশে দাঁড়াল না।\n\nপাওনাদাররা বাড়িতে এসে hue and cry শুরু করলে রনি দিশেহারা হয়ে পড়ল। সে বুঝল, সে তো flesh and blood-এর মানুষ, এই অপমান সহ্য করা তার পক্ষে কঠিন। বর্তমান পরিস্থিতি এখন তাৎক্ষণিক পদক্ষেপ call for করছে, নতুবা তার ভবিষ্যৎ অন্ধকার।",
+    "glossary": [
+      {
+        "word": "Prudent",
+        "banglaWord": "প্রুডেন্ট",
+        "meaning": "বিচক্ষণ / সতর্ক",
+        "color": "teal"
+      },
+      {
+        "word": "Indispensable",
+        "banglaWord": "ইনডিসপেনসেবল",
+        "meaning": "অপরিহার্য",
+        "color": "pink"
+      },
+      {
+        "word": "Gregarious",
+        "banglaWord": "গ্রেগারিয়াস",
+        "meaning": "মিশুক",
+        "color": "red"
+      },
+      {
+        "word": "Extravagant",
+        "banglaWord": "এক্সট্রাভ্যাগেন্ট",
+        "meaning": "অপব্যয়ী / অমিতব্যয়ী",
+        "color": "purple"
+      },
+      {
+        "word": "Transient",
+        "banglaWord": "ট্রানজিয়েন্ট",
+        "meaning": "ক্ষণস্থায়ী",
+        "color": "cyan"
+      },
+      {
+        "word": "Agree with / to",
+        "banglaWord": "",
+        "meaning": "রাজি হওয়া (ব্যক্তির সাথে with, প্রস্তাবে to)",
+        "color": "teal"
+      },
+      {
+        "word": "Blind to",
+        "banglaWord": "",
+        "meaning": "দোষের প্রতি অন্ধ",
+        "color": "red"
+      },
+      {
+        "word": "Call for",
+        "banglaWord": "",
+        "meaning": "চাওয়া / দাবি করা",
+        "color": "yellow"
+      },
+      {
+        "word": "Devoid of",
+        "banglaWord": "",
+        "meaning": "বর্জিত / শূন্য",
+        "color": "pink"
+      },
+      {
+        "word": "Enquire of",
+        "banglaWord": "",
+        "meaning": "জিজ্ঞাসা করা",
+        "color": "lime"
+      },
+      {
+        "word": "Call to mind",
+        "banglaWord": "",
+        "meaning": "স্মরণ করা",
+        "color": "purple"
+      },
+      {
+        "word": "Die in harness",
+        "banglaWord": "",
+        "meaning": "কাজ করতে করতে মারা যাওয়া",
+        "color": "cyan"
+      },
+      {
+        "word": "Flesh and blood",
+        "banglaWord": "",
+        "meaning": "রক্তমাংসের শরীর (মানুষ)",
+        "color": "orange"
+      },
+      {
+        "word": "Hue and cry",
+        "banglaWord": "",
+        "meaning": "শোরগোল / হইচই",
+        "color": "purple"
+      },
+      {
+        "word": "Kith and kin",
+        "banglaWord": "",
+        "meaning": "আত্মীয়স্বজন",
+        "color": "teal"
+      }
+    ]
+  },
+  {
+    "id": 1773086854072,
+    "title": "৫. গুলশানের এক",
+    "shortDesc": "গুলশানের এক opulent ভিলায় বাস করা জনাব রাফাত ছিলেন ভীষণ fastidious স্বভাবের। তার রুচি ও পছন্দ অন্যদ...",
+    "article": "গুলশানের এক opulent ভিলায় বাস করা জনাব রাফাত ছিলেন ভীষণ fastidious স্বভাবের। তার রুচি ও পছন্দ অন্যদের থেকে সম্পূর্ণ differ from করত। তার পার্সোনাল সেক্রেটারি খুবই taciturn, সে কথা কম বললেও কাজে ছিল impeccable।\n\nএকদিন এক যুবক এল, যার উপস্থাপনা ছিল দারুণ eloquent। যুবকটি জানাল, সে তার দারিদ্র্য থেকে escape from করতে চায়। কিন্তু তার আগের ব্যবসায়িক পার্টনার তার স্বপ্নকে in cold blood হত্যা করে তাদের চুক্তিটি null and void ঘোষণা করেছিল। সে হতাশ হয়ে দেশ ছাড়তে চেয়েছিল for good।\n\nজনাব রাফাত ব্যবসার সব pros and cons বিবেচনা করলেন। তিনি পুরনো কিছু নিয়ম যা এখন dead letter, সেগুলো নিয়ে মাথা না ঘামিয়ে নতুন নিয়মের সাথে comply with করে যুবকটিকে সুযোগ দিলেন। তিনি ছেলেটির সততার ওপর faith in রাখলেন। যুবকটি জনাব রাফাতের প্রতি আজীবন grateful to থাকার প্রতিজ্ঞা করল।",
+    "glossary": [
+      {
+        "word": "Eloquent",
+        "banglaWord": "এলোকোয়েন্ট",
+        "meaning": "বাকপটু",
+        "color": "pink"
+      },
+      {
+        "word": "Fastidious",
+        "banglaWord": "ফ্যাসটিডিয়াস",
+        "meaning": "খুঁতখুঁতে",
+        "color": "cyan"
+      },
+      {
+        "word": "Impeccable",
+        "banglaWord": "ইমপেকেবল",
+        "meaning": "নিখুঁত / ত্রুটিহীন",
+        "color": "lime"
+      },
+      {
+        "word": "Opulent",
+        "banglaWord": "অপুলেন্ট",
+        "meaning": "বিত্তশালী / জাঁকজমকপূর্ণ",
+        "color": "yellow"
+      },
+      {
+        "word": "Taciturn",
+        "banglaWord": "ট্যাসিতার্ন",
+        "meaning": "অল্পভাষী / মিতভাষী",
+        "color": "pink"
+      },
+      {
+        "word": "Comply with",
+        "banglaWord": "",
+        "meaning": "সম্মত হওয়া / মেনে নেওয়া",
+        "color": "red"
+      },
+      {
+        "word": "Differ from",
+        "banglaWord": "",
+        "meaning": "ভিন্ন হওয়া (বস্তু থেকে from, Differ with ব্যক্তির সাথে with)",
+        "color": "cyan"
+      },
+      {
+        "word": "Escape from",
+        "banglaWord": "",
+        "meaning": "মুক্তি পাওয়া / পালানো",
+        "color": "indigo"
+      },
+      {
+        "word": "Faith in",
+        "banglaWord": "",
+        "meaning": "বিশ্বাস",
+        "color": "orange"
+      },
+      {
+        "word": "Grateful to / for",
+        "banglaWord": "",
+        "meaning": "কৃতজ্ঞ (ব্যক্তির কাছে to, কিছুর জন্য for)",
+        "color": "indigo"
+      },
+      {
+        "word": "Dead letter",
+        "banglaWord": "",
+        "meaning": "অকার্যকর আইন",
+        "color": "lime"
+      },
+      {
+        "word": "For good",
+        "banglaWord": "",
+        "meaning": "চিরতরে",
+        "color": "yellow"
+      },
+      {
+        "word": "In cold blood",
+        "banglaWord": "",
+        "meaning": "ঠান্ডা মাথায় / নৃশংসভাবে",
+        "color": "pink"
+      },
+      {
+        "word": "Null and void",
+        "banglaWord": "",
+        "meaning": "বাতিল",
+        "color": "purple"
+      },
+      {
+        "word": "Pros and cons",
+        "banglaWord": "",
+        "meaning": "খুঁটিনাটি / ভালো-মন্দ দিক",
+        "color": "yellow"
+      }
+    ]
+  }
+]

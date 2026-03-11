@@ -95,6 +95,9 @@
         "meaning": "আসক্তি",
         "color": "red"
       }
+    ],
+    "tags": [
+      "General"
     ]
   },
   {
@@ -105,33 +108,34 @@
     "glossary": [
       {
         "word": "Magnanimous",
-        "banglaWord": "ম্যাগনানিমানাস",
+        "banglaWord": "ম্যাগনানিমাস",
         "meaning": "মহানুভব / উদার",
-        "color": "red"
+        "color": "yellow"
       },
       {
         "word": "Ephemeral",
         "banglaWord": "ইফেমেরাল",
         "meaning": "ক্ষণস্থায়ী",
-        "color": "yellow"
+        "color": "cyan"
       },
       {
         "word": "Candid",
         "banglaWord": "ক্যান্ডিড",
         "meaning": "স্পষ্টবাদী / মনখোলা",
-        "color": "pink"
+        "color": "indigo"
       },
       {
         "word": "Bolster",
         "banglaWord": "বোলস্টার",
         "meaning": "শক্তিশালী করা / সমর্থন করা",
-        "color": "cyan"
+        "color": "yellow"
       },
       {
         "word": "Lethargy",
         "banglaWord": "লেথার্জি",
         "meaning": "অলসতা / নিস্তেজ ভাব",
-        "color": "cyan"
+        "color": "yellow",
+        "bookmarked": true
       },
       {
         "word": "Abide by",
@@ -143,43 +147,43 @@
         "word": "Abstain from",
         "banglaWord": "",
         "meaning": "বিরত থাকা",
-        "color": "lime"
+        "color": "yellow"
       },
       {
         "word": "Absorbed in",
         "banglaWord": "",
         "meaning": "মগ্ন / নিবিষ্ট",
-        "color": "red"
+        "color": "teal"
       },
       {
         "word": "Access to",
         "banglaWord": "",
         "meaning": "প্রবেশাধিকার",
-        "color": "orange"
+        "color": "lime"
       },
       {
         "word": "Accused of",
         "banglaWord": "",
         "meaning": "অভিযুক্ত",
-        "color": "lime"
+        "color": "yellow"
       },
       {
         "word": "A bed of roses",
         "banglaWord": "",
         "meaning": "আরামদায়ক অবস্থা / ফুলশয্যা",
-        "color": "teal"
+        "color": "orange"
       },
       {
         "word": "Apple of discord",
         "banglaWord": "",
         "meaning": "বিবাদের মূল / ঝগড়ার কারণ",
-        "color": "indigo"
+        "color": "lime"
       },
       {
         "word": "At sixes and sevens",
         "banglaWord": "",
         "meaning": "বিশৃঙ্খল অবস্থা",
-        "color": "yellow"
+        "color": "purple"
       },
       {
         "word": "Black sheep",
@@ -191,8 +195,11 @@
         "word": "By hook or by crook",
         "banglaWord": "",
         "meaning": "যে কোনো উপায়ে (সৎ বা অসৎ)",
-        "color": "purple"
+        "color": "red"
       }
+    ],
+    "tags": [
+      "General"
     ]
   },
   {
@@ -291,6 +298,9 @@
         "meaning": "পরিবর্তে",
         "color": "cyan"
       }
+    ],
+    "tags": [
+      "General"
     ]
   },
   {
@@ -389,6 +399,9 @@
         "meaning": "ব্যর্থ হওয়া / নিস্ফল হওয়া",
         "color": "cyan"
       }
+    ],
+    "tags": [
+      "General"
     ]
   },
   {
@@ -487,6 +500,9 @@
         "meaning": "আত্মীয়স্বজন",
         "color": "teal"
       }
+    ],
+    "tags": [
+      "General"
     ]
   },
   {
@@ -517,7 +533,8 @@
         "word": "Opulent",
         "banglaWord": "অপুলেন্ট",
         "meaning": "বিত্তশালী / জাঁকজমকপূর্ণ",
-        "color": "yellow"
+        "color": "yellow",
+        "bookmarked": true
       },
       {
         "word": "Taciturn",
@@ -585,6 +602,9 @@
         "meaning": "খুঁটিনাটি / ভালো-মন্দ দিক",
         "color": "yellow"
       }
+    ],
+    "tags": [
+      "General"
     ]
   }
 ]

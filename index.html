@@ -3,17 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Juthi's Story Based Vocab Library</title>
+    <title>Juthi's Premium Vocab Library</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
     />
     <style>
       body {
         font-family: "Inter", sans-serif;
-        background: linear-gradient(135deg, #0a084b, #2b084b);
+        background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
         min-height: 100vh;
+        background-attachment: fixed;
       }
 
       .speaker-icon {
@@ -21,7 +22,7 @@
         transition: transform 0.2s ease-in-out;
       }
       .speaker-icon:hover {
-        transform: scale(1.1);
+        transform: scale(1.15);
       }
       .speaker-icon.loading {
         animation: pulse 1s infinite;
@@ -31,7 +32,7 @@
           transform: scale(1);
         }
         50% {
-          transform: scale(1.1);
+          transform: scale(1.15);
         }
         100% {
           transform: scale(1);
@@ -43,13 +44,57 @@
       }
 
       .story-link {
+        position: relative;
         text-decoration: none;
-        border-bottom: 2px solid rgba(20, 184, 166, 0.5);
-        transition: all 0.2s;
+        border-bottom: 2px dashed rgba(20, 184, 166, 0.4);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        padding: 0 2px;
+        border-radius: 4px;
+        display: inline-block;
       }
       .story-link:hover {
-        background-color: rgba(20, 184, 166, 0.2);
-        border-bottom-color: #14b8a6;
+        background-color: rgba(20, 184, 166, 0.15);
+        border-bottom-style: solid;
+      }
+
+      .vocab-tooltip {
+        visibility: hidden;
+        position: absolute;
+        bottom: calc(100% + 10px);
+        left: 50%;
+        transform: translateX(-50%) translateY(8px);
+        background: rgba(15, 12, 41, 0.98);
+        backdrop-filter: blur(8px);
+        color: #f3f4f6;
+        padding: 14px 16px;
+        border-radius: 12px;
+        width: max-content;
+        max-width: 260px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+        z-index: 50;
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+        text-align: left;
+        font-weight: normal;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        line-height: 1.6;
+      }
+      .story-link:hover .vocab-tooltip {
+        visibility: visible;
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+      .vocab-tooltip::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -6px;
+        border-width: 6px;
+        border-style: solid;
+        border-color: rgba(15, 12, 41, 0.98) transparent transparent transparent;
       }
 
       .highlighted {
@@ -63,229 +108,496 @@
         }
         50% {
           box-shadow: 0 0 20px 8px rgba(255, 165, 0, 0.6);
-          transform: scale(1.05);
+          transform: scale(1.03);
           background-color: rgba(255, 165, 0, 0.3);
+          border-radius: 8px;
         }
         100% {
           box-shadow: 0 0 0 0px rgba(255, 165, 0, 0);
           transform: scale(1);
           background-color: transparent;
+          border-radius: 8px;
         }
       }
 
-      body::-webkit-scrollbar {
-        width: 10px;
+      ::-webkit-scrollbar {
+        width: 8px;
       }
-      body::-webkit-scrollbar-track {
-        background: #0a084b;
+      ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.1);
         border-radius: 10px;
       }
-      body::-webkit-scrollbar-thumb {
+      ::-webkit-scrollbar-thumb {
         background-color: #14b8a6;
         border-radius: 10px;
-        border: 2px solid #0a084b;
       }
-      body::-webkit-scrollbar-thumb:hover {
+      ::-webkit-scrollbar-thumb:hover {
         background-color: #0d9488;
       }
 
       .story-card {
-        transition: all 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
       .story-card:hover {
-        transform: translateY(-5px);
+        transform: translateY(-6px);
         box-shadow:
-          0 20px 25px -5px rgba(0, 0, 0, 0.1),
-          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+          0 20px 25px -5px rgba(0, 0, 0, 0.4),
+          0 10px 10px -5px rgba(0, 0, 0, 0.2);
       }
 
-      .modal-content {
-        max-height: 90vh;
-        overflow-y: auto;
+      @keyframes modal-pop {
+        0% {
+          transform: scale(0.95) translateY(10px);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1) translateY(0);
+          opacity: 1;
+        }
+      }
+      .modal-animate {
+        animation: modal-pop 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      }
+      .dropdown-enter {
+        animation: dropIn 0.2s ease-out forwards;
+        transform-origin: top right;
+      }
+      @keyframes dropIn {
+        0% {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fade-in {
+        animation: fade-in 0.4s ease-out forwards;
+      }
+
+      .bookmark-pop {
+        animation: pop 0.3s ease-out forwards;
+      }
+      @keyframes pop {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.3);
+        }
+        100% {
+          transform: scale(1);
+        }
       }
     </style>
   </head>
   <body
     class="p-4 sm:p-8 flex flex-col items-center justify-start text-gray-800 dark:text-gray-200 relative"
   >
-    <div id="home-view" class="w-full max-w-6xl animate-fade-in pb-20">
+    <div
+      id="home-view"
+      class="w-full max-w-6xl transition-all duration-500 pb-20"
+    >
       <div
-        class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4"
+        class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6 bg-white/5 backdrop-blur-md p-6 sm:p-8 rounded-[2rem] border border-white/10 shadow-2xl relative z-[100]"
       >
-        <h1
-          class="text-4xl sm:text-5xl font-bold text-white drop-shadow-lg text-center md:text-left"
-        >
-          Juthi's Vocab Library 📚
-        </h1>
-
-        <div class="flex flex-wrap justify-center gap-3">
-          <button
-            onclick="triggerImport()"
-            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full font-bold shadow-lg text-sm flex items-center gap-2 transition transform hover:scale-105"
+        <div class="text-left">
+          <h1
+            class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-400 drop-shadow-lg mb-4 tracking-tight"
           >
-            Import JSON
-          </button>
-          <input
-            type="file"
-            id="file-input"
-            class="hidden"
-            accept=".json"
-            onchange="importData(this)"
-          />
-
-          <button
-            onclick="exportData()"
-            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full font-bold shadow-lg text-sm flex items-center gap-2 transition transform hover:scale-105"
-          >
-            Export JSON
-          </button>
-
-          <button
-            onclick="openModal()"
-            class="bg-teal-500 hover:bg-teal-600 text-white px-5 py-2 rounded-full font-bold shadow-lg flex items-center gap-2 transition transform hover:scale-105 border-2 border-white/20"
-          >
-            + নতুন গল্প
-          </button>
+            Juthi's Vocab Library
+          </h1>
+          <div class="flex flex-wrap gap-4 items-center mt-2">
+            <div
+              class="bg-black/20 px-5 py-3 rounded-2xl border border-white/5 flex flex-col justify-center"
+            >
+              <span
+                class="text-gray-400 text-xs uppercase tracking-widest font-semibold mb-1"
+                >মোট গল্প</span
+              >
+              <span
+                id="stat-stories"
+                class="text-3xl font-extrabold text-white leading-none"
+                >0</span
+              >
+            </div>
+            <div
+              class="bg-black/20 px-5 py-3 rounded-2xl border border-white/5 flex flex-col justify-center"
+            >
+              <span
+                class="text-gray-400 text-xs uppercase tracking-widest font-semibold mb-1"
+                >মোট শব্দ</span
+              >
+              <span
+                id="stat-words"
+                class="text-3xl font-extrabold text-teal-400 leading-none"
+                >0</span
+              >
+            </div>
+            <div
+              onclick="showBookmarksView()"
+              class="bg-amber-500/10 hover:bg-amber-500/20 px-5 py-3 rounded-2xl border border-amber-500/20 flex flex-col justify-center cursor-pointer transition-all active:scale-95 group shadow-lg shadow-amber-500/5"
+            >
+              <span
+                class="text-amber-200/70 group-hover:text-amber-300 text-xs uppercase tracking-widest font-semibold mb-1 flex items-center gap-1"
+              >
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                  />
+                </svg>
+                ফেভারিটস
+              </span>
+              <span
+                id="stat-bookmarks"
+                class="text-3xl font-extrabold text-amber-400 leading-none group-hover:scale-105 transition-transform origin-left"
+                >0</span
+              >
+            </div>
+          </div>
         </div>
+
+        <div
+          class="absolute top-6 right-6 md:relative md:top-0 md:right-0 z-[110]"
+        >
+          <button
+            onclick="toggleSettings(event)"
+            class="p-3 bg-white/10 hover:bg-teal-500/20 rounded-xl border border-white/10 transition-all active:scale-90 group shadow-lg"
+          >
+            <svg
+              class="w-7 h-7 text-gray-200 group-hover:text-teal-300 transform group-hover:rotate-90 transition-all duration-300"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+          </button>
+
+          <div
+            id="settings-menu"
+            class="hidden absolute right-0 top-16 w-56 bg-[#1f1b4e]/95 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl overflow-hidden z-[120]"
+          >
+            <button
+              onclick="openModal()"
+              class="w-full text-left px-5 py-4 text-teal-400 hover:bg-white/5 font-bold flex items-center gap-3 border-b border-white/5 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              + নতুন গল্প
+            </button>
+            <button
+              onclick="triggerImport()"
+              class="w-full text-left px-5 py-3.5 text-gray-200 hover:bg-white/5 flex items-center gap-3 border-b border-white/5 transition-colors font-medium"
+            >
+              <svg
+                class="w-5 h-5 opacity-70"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                />
+              </svg>
+              Import JSON
+            </button>
+            <button
+              onclick="exportData()"
+              class="w-full text-left px-5 py-3.5 text-gray-200 hover:bg-white/5 flex items-center gap-3 transition-colors font-medium"
+            >
+              <svg
+                class="w-5 h-5 opacity-70"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                />
+              </svg>
+              Export JSON
+            </button>
+            <input
+              type="file"
+              id="file-input"
+              class="hidden"
+              accept=".json"
+              onchange="importData(this)"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="w-full relative z-40 mb-10 animate-fade-in">
+        <div class="relative w-full">
+          <div
+            class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"
+          >
+            <svg
+              class="w-5 h-5 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              ></path>
+            </svg>
+          </div>
+          <input
+            type="text"
+            id="search-input"
+            onkeyup="filterStories()"
+            class="w-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl py-3.5 pl-12 pr-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white/10 transition-all shadow-lg"
+            placeholder="গল্পের নাম বা কোনো নির্দিষ্ট শব্দ খুঁজুন..."
+          />
+        </div>
+        <div id="category-filters" class="flex flex-wrap gap-2 mt-5"></div>
       </div>
 
       <div
         id="stories-grid"
-        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
       ></div>
     </div>
 
     <div
       id="story-view"
-      class="hidden max-w-4xl w-full bg-white dark:bg-[#17153B] rounded-3xl shadow-2xl overflow-hidden border-4 border-teal-400 relative mb-10"
+      class="hidden max-w-4xl w-full bg-white dark:bg-[#1a1842] rounded-[2rem] shadow-2xl overflow-hidden border border-white/10 dark:border-teal-400/30 relative mb-10 transition-all duration-500 z-10"
     >
-      <div class="flex justify-between items-center p-4 sm:p-6 pb-0">
+      <div
+        class="flex justify-between items-center p-4 sm:p-6 bg-white/80 dark:bg-[#1a1842]/80 backdrop-blur-md sticky top-0 z-40 border-b border-gray-100 dark:border-white/5"
+      >
         <button
           onclick="showHome()"
-          class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow transition flex items-center gap-2"
+          class="px-5 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-white/10 dark:hover:bg-white/20 text-gray-700 dark:text-white rounded-full font-semibold transition-all flex items-center gap-2 active:scale-95"
         >
           ← Back
         </button>
-        <div class="flex gap-2">
+        <div class="flex gap-3">
           <button
             id="edit-btn"
-            class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg shadow transition flex items-center gap-2"
+            class="px-5 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/20 rounded-full font-semibold transition-all flex items-center gap-2 active:scale-95"
           >
             ✎ Edit
           </button>
           <button
             onclick="deleteCurrentStory()"
-            class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow transition flex items-center gap-2"
+            class="px-5 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/20 rounded-full font-semibold transition-all flex items-center gap-2 active:scale-95"
           >
             🗑 Delete
           </button>
         </div>
       </div>
 
-      <div class="p-6 sm:p-8 pt-4">
+      <div class="p-6 sm:p-10 md:p-12 pt-6">
+        <div class="flex justify-center mb-4">
+          <span
+            id="article-category-badge"
+            class="hidden text-xs font-bold bg-teal-500/20 text-teal-400 px-3 py-1 rounded-full uppercase tracking-wider"
+          ></span>
+        </div>
         <h1
           id="article-title"
-          class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 sm:mb-8 text-indigo-700 dark:text-indigo-400"
+          class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center mb-8 text-indigo-800 dark:text-teal-300 leading-tight"
         ></h1>
-
-        <p
+        <div
           id="article-content"
-          class="text-base sm:text-lg text-justify leading-relaxed mb-6 sm:mb-8 bg-blue-50 dark:bg-gray-800 p-6 rounded-2xl shadow-inner text-gray-800 dark:text-gray-200 border border-blue-100 dark:border-gray-700"
-        ></p>
+          class="text-lg sm:text-xl text-justify leading-[1.85] mb-10 bg-slate-50 dark:bg-[#11102b] p-6 sm:p-8 rounded-[1.5rem] shadow-inner text-gray-800 dark:text-gray-200 border border-slate-200 dark:border-white/5 tracking-wide"
+        ></div>
 
         <div
           id="glossary-section"
-          class="mt-8 border-t dark:border-gray-600 pt-8"
+          class="mt-12 border-t dark:border-white/10 pt-10"
         >
           <h2
-            class="text-xl sm:text-2xl font-bold mb-6 text-center text-indigo-700 dark:text-indigo-400"
+            class="text-2xl sm:text-3xl font-bold mb-8 flex items-center gap-3 text-indigo-800 dark:text-teal-300"
           >
+            <span
+              class="w-10 h-10 bg-indigo-100 dark:bg-teal-500/20 rounded-xl flex items-center justify-center text-lg"
+              >💡</span
+            >
             শব্দার্থ ও ব্যাখ্যা
           </h2>
           <div
             id="glossary-container"
-            class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6"
+            class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6"
           ></div>
         </div>
       </div>
     </div>
 
     <div
-      id="input-modal"
-      class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
+      id="bookmarks-view"
+      class="hidden max-w-4xl w-full bg-white dark:bg-[#1a1842] rounded-[2rem] shadow-2xl overflow-hidden border border-amber-500/30 relative mb-10 transition-all duration-500 z-10 animate-fade-in"
     >
       <div
-        class="bg-white dark:bg-[#1f1b4e] w-full max-w-3xl rounded-2xl shadow-2xl modal-content p-6 border-2 border-teal-500"
+        class="flex justify-between items-center p-4 sm:p-6 bg-white/80 dark:bg-[#1a1842]/80 backdrop-blur-md sticky top-0 z-40 border-b border-gray-100 dark:border-white/5"
+      >
+        <button
+          onclick="showHome()"
+          class="px-5 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-white/10 dark:hover:bg-white/20 text-gray-700 dark:text-white rounded-full font-semibold transition-all flex items-center gap-2 active:scale-95"
+        >
+          ← Back
+        </button>
+        <span
+          class="font-bold text-amber-500 bg-amber-500/10 px-4 py-1.5 rounded-full flex items-center gap-2"
+        >
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+            />
+          </svg>
+          আমার ফেভারিটস
+        </span>
+      </div>
+
+      <div class="p-6 sm:p-10 md:p-12 pt-6">
+        <div
+          id="bookmarks-container"
+          class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6"
+        ></div>
+      </div>
+    </div>
+
+    <div
+      id="input-modal"
+      class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-md z-[200] flex items-center justify-center p-4 sm:p-6"
+    >
+      <div
+        class="bg-white dark:bg-[#1f1b4e] w-full max-w-3xl rounded-[2rem] shadow-2xl border border-white/20 modal-animate flex flex-col max-h-[90vh] overflow-hidden"
       >
         <div
-          class="flex justify-between items-center mb-6 border-b dark:border-gray-600 pb-4"
+          class="flex justify-between items-center p-6 sm:p-8 border-b dark:border-white/10 shrink-0 bg-white/50 dark:bg-[#1f1b4e]/80"
         >
           <h2
-            class="text-2xl font-bold text-gray-800 dark:text-white"
+            class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white"
             id="modal-heading"
           >
             নতুন গল্প যুক্ত করুন
           </h2>
           <button
             onclick="closeModal()"
-            class="text-red-500 hover:text-red-700 font-bold text-3xl leading-none"
+            class="text-gray-400 hover:text-rose-500 transition-colors font-light text-4xl leading-none active:scale-90"
           >
             &times;
           </button>
         </div>
 
-        <div class="space-y-4">
+        <div class="p-6 sm:p-8 overflow-y-auto flex-1 space-y-6">
           <div>
             <label
-              class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1"
+              class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"
               >গল্পের নাম (Title)</label
             >
             <input
               type="text"
               id="input-title"
-              class="w-full p-3 rounded-lg border dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-teal-500 outline-none transition"
-              placeholder="গল্পের শিরোনাম দিন..."
+              class="w-full p-4 rounded-xl border border-gray-200 dark:bg-black/20 dark:border-white/10 dark:text-white focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all"
+              placeholder="গল্পের আকর্ষণীয় শিরোনাম দিন..."
             />
           </div>
 
           <div>
             <label
-              class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1"
-              >সম্পূর্ণ কন্টেন্ট</label
+              class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"
+              >ক্যাটাগরি বা ট্যাগ (ঐচ্ছিক)</label
             >
-            <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">
-              ফরম্যাট: প্রথমে গল্প, তারপর "Take a Quick Look", তারপর তালিকা
-              (যেমন: ১. Word - Meaning)।
-            </p>
-            <textarea
-              id="input-raw-text"
-              rows="12"
-              class="w-full p-3 rounded-lg border dark:bg-gray-700 dark:border-gray-600 dark:text-white font-mono text-sm focus:ring-2 focus:ring-teal-500 outline-none transition"
-              placeholder="এখানে পেস্ট করুন..."
-            ></textarea>
+            <input
+              type="text"
+              id="input-category"
+              class="w-full p-4 rounded-xl border border-gray-200 dark:bg-black/20 dark:border-white/10 dark:text-white focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all placeholder-gray-500"
+              placeholder="ফাঁকা রাখলে 'General' সেভ হবে (কমা দিয়ে একাধিক লিখতে পারেন)"
+            />
           </div>
 
-          <div class="flex justify-end gap-3 pt-4">
-            <button
-              onclick="closeModal()"
-              class="px-5 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 font-semibold"
-            >
-              Cancel
-            </button>
-            <button
-              onclick="processAndAddStory()"
-              class="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 font-bold shadow-lg transform active:scale-95 transition"
-            >
-              Save Story
-            </button>
+          <div>
+            <div class="flex justify-between items-end mb-2">
+              <label
+                class="block text-sm font-semibold text-gray-700 dark:text-gray-300"
+                >সম্পূর্ণ কন্টেন্ট</label
+              >
+              <span
+                class="text-xs text-teal-600 dark:text-teal-400 font-medium bg-teal-50 dark:bg-teal-500/10 px-3 py-1.5 rounded-lg border border-teal-500/20"
+                >নম্বর দেয়া ঐচ্ছিক (Optional)</span
+              >
+            </div>
+            <textarea
+              id="input-raw-text"
+              rows="10"
+              class="w-full p-4 rounded-xl border border-gray-200 dark:bg-black/20 dark:border-white/10 dark:text-white font-mono text-sm leading-relaxed focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all resize-y"
+              placeholder="গল্পের পর Take a Quick Look লিখে শুধু শব্দগুলো লিখুন:&#10;&#10;Word (বাংলা) - Meaning&#10;Apple - আপেল"
+            ></textarea>
           </div>
+        </div>
+
+        <div
+          class="p-6 sm:p-8 border-t dark:border-white/10 flex justify-end gap-4 shrink-0 bg-gray-50/50 dark:bg-black/10"
+        >
+          <button
+            onclick="closeModal()"
+            class="px-6 py-3 bg-gray-200 hover:bg-gray-300 dark:bg-white/10 dark:hover:bg-white/20 text-gray-800 dark:text-gray-200 rounded-xl font-semibold transition-all active:scale-95"
+          >
+            বাতিল করুন
+          </button>
+          <button
+            onclick="processAndAddStory()"
+            class="px-8 py-3 bg-gradient-to-r from-teal-500 to-emerald-400 hover:from-teal-400 hover:to-emerald-300 text-white rounded-xl font-bold shadow-lg shadow-teal-500/30 transition-all active:scale-95"
+          >
+            গল্প সেভ করুন
+          </button>
         </div>
       </div>
     </div>
 
     <button
       id="scroll-to-top-btn"
-      class="hidden fixed bottom-6 right-6 z-50 p-3 bg-teal-500 text-white rounded-full shadow-lg hover:bg-teal-600 transition hover:-translate-y-1"
+      class="hidden fixed bottom-8 right-8 z-[150] p-4 bg-teal-500/90 backdrop-blur-sm text-white rounded-full shadow-lg shadow-teal-500/40 hover:bg-teal-400 transition-all hover:-translate-y-2 active:scale-95"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -304,7 +616,6 @@
     </button>
 
     <script>
-      // ================= CONFIGURATION =================
       const colorPalette = [
         "purple",
         "orange",
@@ -319,35 +630,170 @@
       let stories = [];
       let editingStoryId = null;
       let currentStoryId = null;
+      let activeCategory = "All";
 
-      // ================= INITIALIZATION =================
+      function toggleSettings(event) {
+        event.stopPropagation();
+        const menu = document.getElementById("settings-menu");
+        if (menu.classList.contains("hidden")) {
+          menu.classList.remove("hidden");
+          menu.classList.add("dropdown-enter");
+        } else {
+          menu.classList.add("hidden");
+          menu.classList.remove("dropdown-enter");
+        }
+      }
+
+      document.addEventListener("click", function () {
+        const menu = document.getElementById("settings-menu");
+        if (!menu.classList.contains("hidden")) menu.classList.add("hidden");
+      });
+
       function initApp() {
         const savedStories = localStorage.getItem("myStoryApp_stories");
         if (savedStories) {
           try {
             stories = JSON.parse(savedStories);
+            stories = stories.map((s) => ({
+              ...s,
+              tags: s.tags && s.tags.length > 0 ? s.tags : ["General"],
+            }));
           } catch (e) {
-            console.error("Data corrupted, resetting.");
             stories = [];
           }
         }
-        renderHome();
+        updateStatsOnly(); // FIX: Initialize stats right away
+        renderDashboard();
       }
 
       function saveStoriesToLocal() {
         localStorage.setItem("myStoryApp_stories", JSON.stringify(stories));
       }
 
-      // ================= CORE: PARSING LOGIC =================
+      function updateStatsOnly() {
+        document.getElementById("stat-stories").innerText = stories.length;
+
+        let totalWords = 0;
+        let bookmarkCount = 0;
+
+        stories.forEach((s) => {
+          totalWords += s.glossary.length;
+          s.glossary.forEach((g) => {
+            if (g.bookmarked) bookmarkCount++;
+          });
+        });
+
+        document.getElementById("stat-words").innerText = totalWords;
+        document.getElementById("stat-bookmarks").innerText = bookmarkCount;
+      }
+
+      // ================= BOOKMARK LOGIC =================
+      function toggleBookmark(storyId, wordIndex, btnElement) {
+        const story = stories.find((s) => s.id === storyId);
+        if (story && story.glossary[wordIndex]) {
+          const isCurrentlyBookmarked =
+            story.glossary[wordIndex].bookmarked || false;
+          story.glossary[wordIndex].bookmarked = !isCurrentlyBookmarked;
+          saveStoriesToLocal();
+
+          if (!isCurrentlyBookmarked) {
+            btnElement.innerHTML = `<svg class="w-5 h-5 text-amber-400 drop-shadow-md" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>`;
+            btnElement.classList.add("bookmark-pop");
+            setTimeout(() => btnElement.classList.remove("bookmark-pop"), 300);
+          } else {
+            btnElement.innerHTML = `<svg class="w-5 h-5 text-gray-400 hover:text-amber-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>`;
+          }
+
+          updateStatsOnly(); // Refresh counters immediately
+        }
+      }
+
+      function showBookmarksView() {
+        document.getElementById("home-view").classList.add("hidden");
+        document.getElementById("story-view").classList.add("hidden");
+        document.getElementById("bookmarks-view").classList.remove("hidden");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        renderBookmarks();
+      }
+
+      function renderBookmarks() {
+        const container = document.getElementById("bookmarks-container");
+        container.innerHTML = "";
+        let hasBookmarks = false;
+
+        stories.forEach((story) => {
+          story.glossary.forEach((item, index) => {
+            if (item.bookmarked) {
+              hasBookmarks = true;
+              const wordWithBangla = item.banglaWord
+                ? `<span class="text-sm font-normal text-gray-500 dark:text-gray-400 bg-black/5 dark:bg-white/5 px-2 py-0.5 rounded">(${item.banglaWord})</span>`
+                : "";
+
+              container.innerHTML += `
+                        <div id="bm-${story.id}-${index}" class="flex flex-col p-5 bg-${item.color}-50/50 dark:bg-white/5 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border-l-[6px] border-${item.color}-500 dark:border-${item.color}-400 relative">
+                          <div class="flex flex-wrap items-center justify-between gap-x-2 gap-y-3 mb-3 pr-8">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-bold text-xl text-${item.color}-700 dark:text-${item.color}-300 break-words">${item.word}</span>
+                                ${wordWithBangla}
+                            </div>
+                            <div class="flex space-x-2 shrink-0">
+                               <div class="flex items-center cursor-pointer px-2 py-1.5 rounded-lg bg-white dark:bg-black/20 hover:bg-${item.color}-100 dark:hover:bg-${item.color}-900/30 border border-gray-200 dark:border-white/10 transition-colors" title="US Pronunciation" onclick="playPronunciation('${item.word}', 'en-US', this)">
+                                <svg class="speaker-icon w-4 h-4 text-${item.color}-600 dark:text-${item.color}-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14 3.23a2.5 2.5 0 0 1 0 17.54v-2.1a9.23 9.23 0 0 0 0-13.34V3.23ZM16.5 7.18a5.95 5.95 0 0 1 0 9.64v-1.78a3.46 3.46 0 0 0 0-6.08V7.18ZM12 4a.97.97 0 0 0-1-.87L7.43 5.4a1 1 0 0 1-.62.24H3.5a1.5 1.5 0 0 0-1.5 1.5v9.72a1.5 1.5 0 0 0 1.5 1.5h3.31a1 1 0 0 1 .62.24l3.58 2.34A.97.97 0 0 0 12 20V4Z"/></svg>
+                               </div>
+                               <div class="flex items-center cursor-pointer px-2 py-1.5 rounded-lg bg-white dark:bg-black/20 hover:bg-${item.color}-100 dark:hover:bg-${item.color}-900/30 border border-gray-200 dark:border-white/10 transition-colors" title="UK Pronunciation" onclick="playPronunciation('${item.word}', 'en-GB', this)">
+                                <svg class="speaker-icon w-4 h-4 text-${item.color}-600 dark:text-${item.color}-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14 3.23a2.5 2.5 0 0 1 0 17.54v-2.1a9.23 9.23 0 0 0 0-13.34V3.23ZM16.5 7.18a5.95 5.95 0 0 1 0 9.64v-1.78a3.46 3.46 0 0 0 0-6.08V7.18ZM12 4a.97.97 0 0 0-1-.87L7.43 5.4a1 1 0 0 1-.62.24H3.5a1.5 1.5 0 0 0-1.5 1.5v9.72a1.5 1.5 0 0 0 1.5 1.5h3.31a1 1 0 0 1 .62.24l3.58 2.34A.97.97 0 0 0 12 20V4Z"/></svg>
+                               </div>
+                            </div>
+                          </div>
+                          <span class="text-base mt-1 text-gray-700 dark:text-gray-300 font-normal leading-relaxed">${item.meaning}</span>
+                          <span class="text-xs text-gray-400 mt-3 pt-2 border-t border-white/5 opacity-70">Found in: ${story.title}</span>
+                          
+                          <button onclick="removeBookmarkFromView(${story.id}, ${index})" class="absolute top-4 right-4 p-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 transition-colors" title="Remove Bookmark">
+                              <svg class="w-5 h-5 fill-current drop-shadow-md" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                          </button>
+                        </div>
+                      `;
+            }
+          });
+        });
+
+        if (!hasBookmarks) {
+          container.innerHTML = `
+                <div class="col-span-full flex flex-col items-center justify-center p-12 bg-white/5 backdrop-blur-sm rounded-[2rem] border border-white/10 mt-6">
+                  <span class="text-6xl mb-4 opacity-50">⭐</span>
+                  <h3 class="text-2xl font-bold text-white mb-2">কোনো ফেভারিট শব্দ নেই!</h3>
+                  <p class="text-gray-400 text-center max-w-md">গল্প পড়ার সময় কঠিন শব্দের ডানপাশের স্টার (⭐) আইকনে ক্লিক করে সেগুলোকে এখানে সেভ করতে পারবেন।</p>
+                </div>`;
+        }
+      }
+
+      function removeBookmarkFromView(storyId, wordIndex) {
+        const story = stories.find((s) => s.id === storyId);
+        if (story && story.glossary[wordIndex]) {
+          story.glossary[wordIndex].bookmarked = false;
+          saveStoriesToLocal();
+          renderBookmarks();
+          updateStatsOnly();
+        }
+      }
+      // ====================================================
+
       function processAndAddStory() {
         const title = document.getElementById("input-title").value.trim();
+        const categoryRaw = document
+          .getElementById("input-category")
+          .value.trim();
         const rawText = document.getElementById("input-raw-text").value;
 
-        if (!title || !rawText) {
-          alert("দয়া করে টাইটেল এবং কন্টেন্ট দিন।");
-          return;
-        }
+        if (!title || !rawText)
+          return alert("দয়া করে টাইটেল এবং কন্টেন্ট দিন।");
 
+        const tags = categoryRaw
+          ? categoryRaw
+              .split(",")
+              .map((t) => t.trim())
+              .filter((t) => t !== "")
+          : ["General"];
         const splitParts = rawText.split(
           /Take a Quick Look|শব্দার্থ|Quick Look/i,
         );
@@ -356,13 +802,12 @@
           splitParts.length > 1 ? splitParts.slice(1).join(" ") : "";
 
         const glossary = [];
-        const lines = glossaryText.split("\n");
-
-        lines.forEach((line) => {
+        glossaryText.split("\n").forEach((line) => {
           line = line.trim();
-          if (!line) return;
-
-          if (!line.includes("-") && !line.includes("–") && !line.includes("—"))
+          if (
+            !line ||
+            (!line.includes("-") && !line.includes("–") && !line.includes("—"))
+          )
             return;
 
           let parts = line.split(/[\-–—]/);
@@ -370,14 +815,11 @@
 
           let leftPart = parts[0].trim();
           let meaning = parts.slice(1).join("-").trim();
-
-          let cleanLeft = leftPart.replace(/^[0-9০-৯]+[\.|,]\s*/, "");
-
-          let word = "";
-          let banglaWord = "";
+          let cleanLeft = leftPart.replace(/^[0-9০-৯]+[\.|,)]?\s*/, "");
+          let word = "",
+            banglaWord = "";
 
           const parenMatch = cleanLeft.match(/(.*)\((.*)\)$/);
-
           if (parenMatch) {
             word = parenMatch[1].trim();
             banglaWord = parenMatch[2].trim();
@@ -389,10 +831,11 @@
             let color =
               colorPalette[Math.floor(Math.random() * colorPalette.length)];
             glossary.push({
-              word: word,
-              banglaWord: banglaWord,
-              meaning: meaning,
-              color: color,
+              word,
+              banglaWord,
+              meaning,
+              color,
+              bookmarked: false,
             });
           }
         });
@@ -403,33 +846,45 @@
             stories[index].title = title;
             stories[index].shortDesc = articleText.substring(0, 100) + "...";
             stories[index].article = articleText;
+
+            glossary.forEach((newG) => {
+              const oldG = stories[index].glossary.find(
+                (o) => o.word === newG.word,
+              );
+              if (oldG && oldG.bookmarked) newG.bookmarked = true;
+            });
+
             stories[index].glossary = glossary;
+            stories[index].tags = tags;
             loadStory(editingStoryId);
           }
         } else {
           const newStory = {
             id: Date.now(),
-            title: title,
+            title,
+            tags,
             shortDesc: articleText.substring(0, 100) + "...",
             article: articleText,
-            glossary: glossary,
+            glossary,
           };
           stories.push(newStory);
           loadStory(newStory.id);
         }
 
         saveStoriesToLocal();
-        renderHome();
+        updateStatsOnly();
+        renderDashboard();
         closeModal();
       }
 
-      // ================= IMPORT / EXPORT =================
       function exportData() {
+        if (stories.length === 0) return alert("কোনো ডেটা নেই!");
         const dataStr = JSON.stringify(stories, null, 2);
-        const dataUri =
-          "data:application/json;charset=utf-8," + encodeURIComponent(dataStr);
         const linkElement = document.createElement("a");
-        linkElement.setAttribute("href", dataUri);
+        linkElement.setAttribute(
+          "href",
+          "data:application/json;charset=utf-8," + encodeURIComponent(dataStr),
+        );
         linkElement.setAttribute("download", "juthi_vocab_backup.json");
         linkElement.click();
       }
@@ -446,9 +901,13 @@
           try {
             const imported = JSON.parse(e.target.result);
             if (Array.isArray(imported)) {
-              stories = imported;
+              stories = imported.map((s) => ({
+                ...s,
+                tags: s.tags && s.tags.length > 0 ? s.tags : ["General"],
+              }));
               saveStoriesToLocal();
-              renderHome();
+              updateStatsOnly();
+              renderDashboard();
               alert("Import Successful!");
             } else {
               alert("Invalid file format.");
@@ -461,20 +920,23 @@
         input.value = "";
       }
 
-      // ================= UI FUNCTIONS =================
       function openModal(isEdit = false) {
         const modal = document.getElementById("input-modal");
         const heading = document.getElementById("modal-heading");
-
         if (!isEdit) {
           editingStoryId = null;
           document.getElementById("input-title").value = "";
+          document.getElementById("input-category").value = "";
           document.getElementById("input-raw-text").value = "";
           heading.innerText = "নতুন গল্প যুক্ত করুন";
         } else {
           heading.innerText = "গল্প এডিট করুন";
         }
         modal.classList.remove("hidden");
+        const content = modal.querySelector(".modal-animate");
+        content.style.animation = "none";
+        content.offsetHeight;
+        content.style.animation = null;
       }
 
       function closeModal() {
@@ -485,17 +947,17 @@
       function prepareEdit(id) {
         const story = stories.find((s) => s.id === id);
         if (!story) return;
-
         editingStoryId = id;
         document.getElementById("input-title").value = story.title;
+        document.getElementById("input-category").value = story.tags
+          ? story.tags.join(", ")
+          : "";
 
         let reconstructedText = story.article + "\n\nTake a Quick Look\n\n";
-
-        story.glossary.forEach((item, index) => {
+        story.glossary.forEach((item) => {
           const pron = item.banglaWord ? `(${item.banglaWord})` : "";
-          reconstructedText += `${index + 1}. ${item.word} ${pron} - ${item.meaning}\n`;
+          reconstructedText += `${item.word} ${pron} - ${item.meaning}\n`;
         });
-
         document.getElementById("input-raw-text").value = reconstructedText;
         openModal(true);
       }
@@ -505,40 +967,113 @@
         if (confirm("আপনি কি নিশ্চিত যে আপনি এই গল্পটি মুছে ফেলতে চান?")) {
           stories = stories.filter((s) => s.id !== currentStoryId);
           saveStoriesToLocal();
-          renderHome();
+          updateStatsOnly();
+          renderDashboard();
           showHome();
         }
       }
 
-      // ================= RENDERING =================
-      function renderHome() {
+      function renderDashboard() {
+        renderCategoryFilters();
+        filterStories();
+      }
+
+      function renderCategoryFilters() {
+        const filtersContainer = document.getElementById("category-filters");
+        const allTags = new Set();
+        stories.forEach((story) => {
+          if (story.tags && Array.isArray(story.tags)) {
+            story.tags.forEach((tag) => allTags.add(tag));
+          }
+        });
+        const uniqueTags = Array.from(allTags).sort();
+        if (uniqueTags.length === 0) {
+          filtersContainer.innerHTML = "";
+          return;
+        }
+
+        let html = `<button onclick="setCategory('All')" class="px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${activeCategory === "All" ? "bg-teal-500 text-white shadow-lg" : "bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10"}">All</button>`;
+        uniqueTags.forEach((tag) => {
+          const isActive = activeCategory === tag;
+          html += `<button onclick="setCategory('${tag}')" class="px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${isActive ? "bg-teal-500 text-white shadow-lg" : "bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10"}">${tag}</button>`;
+        });
+        filtersContainer.innerHTML = html;
+      }
+
+      function setCategory(tag) {
+        activeCategory = tag;
+        renderCategoryFilters();
+        filterStories();
+      }
+
+      function filterStories() {
+        const query = document
+          .getElementById("search-input")
+          .value.toLowerCase();
+        const filtered = stories.filter((story) => {
+          const storyTags = story.tags || [];
+          const matchesCategory =
+            activeCategory === "All" || storyTags.includes(activeCategory);
+          const matchesQuery =
+            query === "" ||
+            story.title.toLowerCase().includes(query) ||
+            story.shortDesc.toLowerCase().includes(query) ||
+            story.glossary.some(
+              (g) =>
+                g.word.toLowerCase().includes(query) ||
+                (g.banglaWord && g.banglaWord.includes(query)) ||
+                g.meaning.toLowerCase().includes(query),
+            );
+          return matchesCategory && matchesQuery;
+        });
+        renderGrid(filtered);
+      }
+
+      function renderGrid(filteredStories) {
         const grid = document.getElementById("stories-grid");
         grid.innerHTML = "";
 
         if (stories.length === 0) {
-          grid.innerHTML = `<div class="col-span-full text-center text-white opacity-70 mt-10">কোনো গল্প নেই। 'Import JSON' অথবা 'নতুন গল্প' বাটনে ক্লিক করুন।</div>`;
+          grid.innerHTML = `
+            <div class="col-span-full flex flex-col items-center justify-center p-12 bg-white/5 backdrop-blur-sm rounded-[2rem] border border-white/10 mt-6">
+              <span class="text-6xl mb-4 opacity-80">📭</span>
+              <h3 class="text-2xl font-bold text-white mb-2">লাইব্রেরিটি ফাঁকা!</h3>
+              <p class="text-gray-400 text-center max-w-md">সেটিংস (⚙️) আইকনে ক্লিক করে 'Import JSON' দিয়ে ব্যাকআপ আনুন অথবা 'নতুন গল্প' লেখা শুরু করুন।</p>
+            </div>`;
           return;
         }
 
-        const reversedStories = [...stories].reverse();
+        if (filteredStories.length === 0) {
+          grid.innerHTML = `
+            <div class="col-span-full flex flex-col items-center justify-center p-10 text-center mt-6">
+              <span class="text-4xl mb-3 opacity-60">🔍</span>
+              <p class="text-gray-400">এই নামে বা শব্দে কোনো গল্প পাওয়া যায়নি।</p>
+            </div>`;
+          return;
+        }
 
-        reversedStories.forEach((story) => {
+        [...filteredStories].reverse().forEach((story) => {
           const card = document.createElement("div");
           card.className =
-            "story-card bg-white dark:bg-[#1f1b4e] p-6 rounded-2xl shadow-lg cursor-pointer border-2 border-transparent hover:border-teal-400 flex flex-col h-full";
+            "story-card bg-[#1f1b4e]/60 backdrop-blur-md p-6 rounded-[1.5rem] shadow-lg cursor-pointer border border-white/5 hover:border-teal-400/50 flex flex-col h-full animate-fade-in";
           card.onclick = () => loadStory(story.id);
 
+          let categoryBadge = "";
+          if (story.tags && story.tags.length > 0) {
+            categoryBadge = `<span class="absolute top-4 left-4 bg-black/40 backdrop-blur-sm text-teal-300 text-xs font-bold px-2.5 py-1 rounded-lg border border-white/5 z-10 uppercase tracking-wide">${story.tags[0]}</span>`;
+          }
+
           card.innerHTML = `
-                <div class="h-32 bg-gradient-to-br from-teal-400 to-blue-600 rounded-xl mb-4 flex items-center justify-center text-5xl shadow-inner text-white">
-                    📖
+                <div class="relative h-40 bg-gradient-to-br from-[#1e1366] to-[#0a0628] rounded-2xl mb-5 flex items-center justify-center text-6xl shadow-inner border border-white/5 overflow-hidden group">
+                    ${categoryBadge}
+                    <div class="transition-transform group-hover:scale-110">📖</div>
                 </div>
-                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2 line-clamp-2">${story.title}</h3>
-                <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-3 mb-4 flex-grow">${story.shortDesc}</p>
-                <div class="mt-auto pt-4 border-t border-gray-200 dark:border-gray-600 flex justify-between items-center">
-                    <span class="text-xs font-semibold bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-gray-600 dark:text-gray-300 border dark:border-gray-600">${story.glossary.length} Words</span>
-                    <span class="text-teal-600 dark:text-teal-400 font-bold text-sm group-hover:underline">Read Now →</span>
-                </div>
-            `;
+                <h3 class="text-xl font-extrabold text-white mb-2 line-clamp-2 leading-tight">${story.title}</h3>
+                <p class="text-gray-400 text-sm line-clamp-3 mb-5 flex-grow leading-relaxed">${story.shortDesc}</p>
+                <div class="mt-auto pt-4 border-t border-white/10 flex justify-between items-center">
+                    <span class="text-xs font-bold bg-teal-500/10 text-teal-400 px-3 py-1.5 rounded-full tracking-wide">${story.glossary.length} Words</span>
+                    <span class="text-indigo-400 font-bold text-sm hover:underline flex items-center gap-1">পড়ুন <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg></span>
+                </div>`;
           grid.appendChild(card);
         });
       }
@@ -546,74 +1081,124 @@
       function loadStory(id) {
         const storyData = stories.find((s) => s.id === id);
         if (!storyData) return;
-
         currentStoryId = id;
         document.getElementById("home-view").classList.add("hidden");
+        document.getElementById("bookmarks-view").classList.add("hidden");
         document.getElementById("story-view").classList.remove("hidden");
-        window.scrollTo(0, 0);
-
+        window.scrollTo({ top: 0, behavior: "smooth" });
         document.getElementById("edit-btn").onclick = () => prepareEdit(id);
         renderStoryContent(storyData);
       }
 
       function showHome() {
         document.getElementById("story-view").classList.add("hidden");
+        document.getElementById("bookmarks-view").classList.add("hidden");
         document.getElementById("home-view").classList.remove("hidden");
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, behavior: "smooth" });
         currentStoryId = null;
+        document.getElementById("search-input").value = "";
+        renderDashboard();
       }
 
       function renderStoryContent(storyData) {
         document.getElementById("article-title").textContent = storyData.title;
-        let highlightedArticle = storyData.article;
 
+        const badgeElement = document.getElementById("article-category-badge");
+        if (storyData.tags && storyData.tags.length > 0) {
+          badgeElement.textContent = storyData.tags.join(" • ");
+          badgeElement.classList.remove("hidden");
+        } else {
+          badgeElement.classList.add("hidden");
+        }
+
+        let content = storyData.article;
+
+        // FIX: Replaced `<p>` wrapping logic. We only replace actual line breaks with `<br><br>`
+        // This ensures the inline words don't get forced into new lines.
+        content = content
+          .replace(/\n\s*\n/g, "<br><br>")
+          .replace(/\n/g, "<br>");
+
+        const tokens = {};
         const sortedGlossary = [...storyData.glossary].sort(
           (a, b) => b.word.length - a.word.length,
         );
 
         sortedGlossary.forEach((item) => {
-          const id = createId(item.word);
           const safeWord = item.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-          const regex = new RegExp(`(${safeWord})`, "gi");
-          const linkHTML = `<a href="#${id}" class="story-link font-bold text-${item.color}-600 dark:text-${item.color}-400" data-glossary-id="${id}" onclick="handleLinkClick(event, '${id}')">$1</a>`;
-          highlightedArticle = highlightedArticle.replace(regex, linkHTML);
+          const regex = new RegExp(`\\b(${safeWord})\\b`, "gi");
+
+          content = content.replace(regex, (match) => {
+            const uniqueToken = `__TOKEN_${Math.random().toString(36).substr(2, 9)}__`;
+            tokens[uniqueToken] = { item: item, originalMatch: match };
+            return uniqueToken;
+          });
         });
 
-        highlightedArticle = highlightedArticle.replace(/\n/g, "<br>");
+        Object.keys(tokens).forEach((token) => {
+          const { item, originalMatch } = tokens[token];
+          const id = createId(item.word);
+          const wordWithBangla = item.banglaWord
+            ? `<span class="text-xs font-normal text-gray-400 ml-1">(${item.banglaWord})</span>`
+            : "";
+
+          const tooltipHTML = `
+             <span class="vocab-tooltip">
+               <span class="block font-bold text-${item.color}-400 border-b border-white/10 pb-1.5 mb-2 text-base">
+                 ${item.word} ${wordWithBangla}
+               </span>
+               <span class="block text-sm text-gray-200">${item.meaning}</span>
+             </span>`;
+
+          const linkHTML = `<a href="#${id}" class="story-link font-bold text-${item.color}-600 dark:text-${item.color}-400" onclick="handleLinkClick(event, '${id}')">${originalMatch}${tooltipHTML}</a>`;
+          content = content.replace(token, linkHTML);
+        });
+
+        // Wrapped final content in a neat div instead of p tags
         document.getElementById("article-content").innerHTML =
-          highlightedArticle;
+          `<div class="leading-[1.85]">${content}</div>`;
 
         let glossaryHtml = "";
-        storyData.glossary.forEach((item) => {
+        storyData.glossary.forEach((item, index) => {
           const id = createId(item.word);
-          const wordWithBangla = item.banglaWord ? `(${item.banglaWord})` : "";
+          const wordWithBangla = item.banglaWord
+            ? `<span class="text-sm font-normal text-gray-500 dark:text-gray-400 bg-black/5 dark:bg-white/5 px-2 py-0.5 rounded">(${item.banglaWord})</span>`
+            : "";
+
+          const isBookmarked = item.bookmarked || false;
+          const starIcon = isBookmarked
+            ? `<svg class="w-5 h-5 text-amber-400 drop-shadow-md" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>`
+            : `<svg class="w-5 h-5 text-gray-400 hover:text-amber-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>`;
 
           glossaryHtml += `
-            <div id="${id}" class="flex flex-col p-4 bg-${item.color}-100 dark:bg-gray-700 rounded-lg shadow-md transition-all duration-300 hover:bg-${item.color}-200 dark:hover:bg-gray-600 transform hover:-translate-y-1 border-l-4 border-${item.color}-500">
-              <div class="flex items-center justify-between">
-                <span class="font-semibold text-lg sm:text-xl text-${item.color}-700 dark:text-${item.color}-300">${item.word} ${wordWithBangla}</span>
+            <div id="${id}" class="flex flex-col p-5 bg-${item.color}-50/50 dark:bg-white/5 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 hover:bg-${item.color}-100/50 dark:hover:bg-white/10 border-l-[6px] border-${item.color}-500 dark:border-${item.color}-400">
+              
+              <div class="flex flex-wrap items-center justify-between gap-x-2 gap-y-3 mb-3">
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="font-bold text-xl text-${item.color}-700 dark:text-${item.color}-300 break-words">${item.word}</span>
+                    ${wordWithBangla}
+                </div>
                 
-                <div class="flex space-x-2">
-                   <div class="flex items-center cursor-pointer p-1 rounded hover:bg-white/20" title="US Pronunciation" onclick="playPronunciation('${item.word}', 'en-US', this)">
-                    <svg class="speaker-icon w-5 h-5 text-${item.color}-700 dark:text-${item.color}-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14 3.23a2.5 2.5 0 0 1 0 17.54v-2.1a9.23 9.23 0 0 0 0-13.34V3.23ZM16.5 7.18a5.95 5.95 0 0 1 0 9.64v-1.78a3.46 3.46 0 0 0 0-6.08V7.18ZM12 4a.97.97 0 0 0-1-.87L7.43 5.4a1 1 0 0 1-.62.24H3.5a1.5 1.5 0 0 0-1.5 1.5v9.72a1.5 1.5 0 0 0 1.5 1.5h3.31a1 1 0 0 1 .62.24l3.58 2.34A.97.97 0 0 0 12 20V4Z"/></svg>
-                    <span class="ml-1 text-xs text-${item.color}-700 dark:text-${item.color}-300 font-bold">US</span>
-                   </div>
+                <div class="flex space-x-2 shrink-0 items-center">
+                   <button onclick="toggleBookmark(${storyData.id}, ${index}, this)" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 transition-all mr-1" title="ফেভারিট এ সেভ করুন">
+                      ${starIcon}
+                   </button>
 
-                   <div class="flex items-center cursor-pointer p-1 rounded hover:bg-white/20" title="UK Pronunciation" onclick="playPronunciation('${item.word}', 'en-GB', this)">
-                    <svg class="speaker-icon w-5 h-5 text-${item.color}-700 dark:text-${item.color}-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14 3.23a2.5 2.5 0 0 1 0 17.54v-2.1a9.23 9.23 0 0 0 0-13.34V3.23ZM16.5 7.18a5.95 5.95 0 0 1 0 9.64v-1.78a3.46 3.46 0 0 0 0-6.08V7.18ZM12 4a.97.97 0 0 0-1-.87L7.43 5.4a1 1 0 0 1-.62.24H3.5a1.5 1.5 0 0 0-1.5 1.5v9.72a1.5 1.5 0 0 0 1.5 1.5h3.31a1 1 0 0 1 .62.24l3.58 2.34A.97.97 0 0 0 12 20V4Z"/></svg>
-                    <span class="ml-1 text-xs text-${item.color}-700 dark:text-${item.color}-300 font-bold">UK</span>
+                   <div class="flex items-center cursor-pointer px-2 py-1.5 rounded-lg bg-white dark:bg-black/20 hover:bg-${item.color}-100 dark:hover:bg-${item.color}-900/30 border border-gray-200 dark:border-white/10 transition-colors" title="US Pronunciation" onclick="playPronunciation('${item.word}', 'en-US', this)">
+                    <svg class="speaker-icon w-4 h-4 text-${item.color}-600 dark:text-${item.color}-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14 3.23a2.5 2.5 0 0 1 0 17.54v-2.1a9.23 9.23 0 0 0 0-13.34V3.23ZM16.5 7.18a5.95 5.95 0 0 1 0 9.64v-1.78a3.46 3.46 0 0 0 0-6.08V7.18ZM12 4a.97.97 0 0 0-1-.87L7.43 5.4a1 1 0 0 1-.62.24H3.5a1.5 1.5 0 0 0-1.5 1.5v9.72a1.5 1.5 0 0 0 1.5 1.5h3.31a1 1 0 0 1 .62.24l3.58 2.34A.97.97 0 0 0 12 20V4Z"/></svg>
+                   </div>
+                   <div class="flex items-center cursor-pointer px-2 py-1.5 rounded-lg bg-white dark:bg-black/20 hover:bg-${item.color}-100 dark:hover:bg-${item.color}-900/30 border border-gray-200 dark:border-white/10 transition-colors" title="UK Pronunciation" onclick="playPronunciation('${item.word}', 'en-GB', this)">
+                    <svg class="speaker-icon w-4 h-4 text-${item.color}-600 dark:text-${item.color}-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14 3.23a2.5 2.5 0 0 1 0 17.54v-2.1a9.23 9.23 0 0 0 0-13.34V3.23ZM16.5 7.18a5.95 5.95 0 0 1 0 9.64v-1.78a3.46 3.46 0 0 0 0-6.08V7.18ZM12 4a.97.97 0 0 0-1-.87L7.43 5.4a1 1 0 0 1-.62.24H3.5a1.5 1.5 0 0 0-1.5 1.5v9.72a1.5 1.5 0 0 0 1.5 1.5h3.31a1 1 0 0 1 .62.24l3.58 2.34A.97.97 0 0 0 12 20V4Z"/></svg>
                    </div>
                 </div>
-
               </div>
-              <span class="text-sm sm:text-base mt-2 text-gray-800 dark:text-gray-200 font-medium">${item.meaning}</span>
+              <span class="text-base mt-1 text-gray-700 dark:text-gray-300 font-normal leading-relaxed">${item.meaning}</span>
             </div>
           `;
         });
         document.getElementById("glossary-container").innerHTML = glossaryHtml;
       }
 
-      // ================= UTILS & EVENTS =================
       function createId(word) {
         return "glossary-" + word.toLowerCase().replace(/[^a-z0-9]/g, "-");
       }
@@ -626,6 +1211,7 @@
           document
             .querySelectorAll(".highlighted")
             .forEach((el) => el.classList.remove("highlighted"));
+          void element.offsetWidth;
           element.classList.add("highlighted");
         }
       }
@@ -633,12 +1219,10 @@
       let speechSynth = window.speechSynthesis;
       function playPronunciation(text, lang, button) {
         if (!speechSynth) return;
-        if (speechSynth.speaking) {
-          speechSynth.cancel();
-        }
+        if (speechSynth.speaking) speechSynth.cancel();
+
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = lang;
-
         const icon = button.querySelector("svg") || button;
 
         utterance.onstart = () => {
